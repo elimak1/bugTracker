@@ -1,0 +1,8 @@
+POST http://localhost:3001/bugs
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IktleSBMZWFuIiwiaWQiOiI1ZmNiOTM1MTZjYjgxODE3YTAxMzJlNGQiLCJpYXQiOjE2MDcxNzg0MDJ9.DvOCkvKe3u-EQu2R6t0eIhVkXRbi1VQaKzNp0t8Hy-U
+
+{
+    "title": "Sunday",
+    "description": "asdfasdfsfsd"
+}

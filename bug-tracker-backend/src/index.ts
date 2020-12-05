@@ -19,8 +19,10 @@ connection.once('open', () => {
 
 const usersRouter = require('./routes/users');
 const bugsRouter = require('./routes/bugs');
+const loginRouter = require('./routes/login');
 app.use('/users', usersRouter);
 app.use('/bugs', bugsRouter);
+app.use('/login', loginRouter);
 
 
 app.get('/', (req, res) => {

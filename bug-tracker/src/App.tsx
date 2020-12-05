@@ -1,10 +1,19 @@
 import React from 'react';
+import Container from '@material-ui/core/Container'
+import {BrowserRouter as Router, Route} from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
-      <p> just get a house lool</p>
+    <Router>
+      <div className="App">
+      <Container>
+        <p> just get a house lool</p>
+        <p> 4HEad</p>
+      </Container>
+      
     </div>
+    </Router>
+    
   );
 }
 

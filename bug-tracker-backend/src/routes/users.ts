@@ -1,23 +1,38 @@
 import express from 'express';
-import { userInfo } from 'os';
+import bcrypt from 'bcrypt';
 let User = require('../models/user');
 const router = express.Router();
 
-router.get('/', (_req, res) => {
+router.get('/', async (_req, res) => {
     
-  User.find()
-    .then(users => res.json(users))
-    .catch(e => res.status(400).json('Error: ' + e));
+    try {
+        const users = await User.find().populate('bugs', { title: 1, description: 1 });
+        res.json(users);
+    } catch(e) {
+        console.log(e);
+        res.status(400).json('Error: ' + e);
+    }
 });
 
-router.post('/', (req,res) => {
+router.post('/', async (req,res) => {
     
+    if(req.body.password.length < 6) {
+        res.status(400).json('Password too short');
+        return;
+    }
+    const saltRounds = 10
+    const passwordHash = await bcrypt.hash(req.body.password, saltRounds)
     const name: string = req.body.name;
-    const newUser = new User({username: name});
+    const newUser = new User({username: name, passwordHash, bugs: []});
     
-    newUser.save()
-        .then(() => res.json('User added'))
-        .catch(e => res.status(400).json('Error: ' + e));
+    try{
+        const addedUser = await newUser.save();
+        res.json(addedUser);
+    } catch(e) {
+        console.log(e);
+        res.status(400).json('Error: ' + e);
+    }
+    
         
     
 });
