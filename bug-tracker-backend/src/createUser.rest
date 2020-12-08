@@ -2,6 +2,8 @@ POST http://localhost:3001/users
 Content-Type: application/json
 
 {
-    "name": "seppo",
-    "password": "taala"
+    "name": "Ben Böhmer3",
+    "password": "Ben Böhmer3",
+    "email": "beni.boomeri2@hotmail.fi",
+    "role": "Admin"
 }

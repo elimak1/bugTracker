@@ -7,8 +7,7 @@ import {BrowserRouter as  Router, Route, Switch, Link, Redirect} from "react-rou
 import Background from '../../images/buground.jpg';
 
 import { useDispatch } from 'react-redux';
-import { logIn, logOut} from '../../reducers/userReducer.js';
-
+import { logIn} from '../../reducers/loginReducer.js';
 
 
   const useStyles = makeStyles((theme) => ({
@@ -40,18 +39,12 @@ const LoginPage=  () => {
     const history = useHistory();
     
     
-    const handleLogin = async (event) => {
+    const handleLogin = (event) => {
         event.preventDefault();
-        try {
-            const res = await axios.post('http://localhost:3001/login', {username, password});
-            setUsername('');
-            setPassword('');
-            window.localStorage.setItem('loggedUser', JSON.stringify(res.data));
-            dispatch(logIn(res.data));
-            history.push('/');
-        } catch (e) {
-            console.log(e);
-        }
+        dispatch(logIn({username, password}));
+        setUsername('');
+        setPassword('');
+      
       }
 
     const classes = useStyles();

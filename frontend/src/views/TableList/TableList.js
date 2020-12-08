@@ -1,6 +1,7 @@
 import React from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
+import {Button} from "@material-ui/core"
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
@@ -8,6 +9,7 @@ import Table from "components/Table/Table.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
+import { useSelector} from 'react-redux';
 
 const styles = {
   cardCategoryWhite: {
@@ -43,67 +45,71 @@ const useStyles = makeStyles(styles);
 
 export default function TableList() {
   const classes = useStyles();
+  const users = useSelector(state => state.users);
+
+  const [entAmount, setEntAmout] = React.useState(10);
+  const [page, setPage] = React.useState(1);
+
+  const getUserList = () => {
+    if(users) {
+      const pageOfUsers= users.slice((page-1)*entAmount,page*entAmount);
+      return pageOfUsers.map(user => 
+        [user.username, user.role? user.role: "N/A",
+      user.email? user.email: "Not found"]);
+    }
+    else {
+      return [["User list could not be fetched"]];
+    }
+  }
+
+  const nextHandler = (event) => {
+    event.preventDefault();
+    if(users &&  users.length> page*entAmount) {
+      setPage(page+ 1);
+    }
+  }
+
+  const previousHandler = (event) => {
+    event.preventDefault();
+    if(users &&  users.length< page*entAmount) {
+      setPage(page- 1);
+    }
+  }
+
+  const entryHandler = (event) => {
+    const max=users? users.length: 0;
+    if(event.value <=10) {
+      setEntAmout(10);
+    } else if(event.value >= max) {
+      setEntAmout(max);
+    } else {
+      setEntAmout(event.value);
+    }
+  }
+
   return (
     <GridContainer>
       <GridItem xs={12} sm={12} md={12}>
         <Card>
           <CardHeader color="primary">
-            <h4 className={classes.cardTitleWhite}>Simple Table</h4>
-            <p className={classes.cardCategoryWhite}>
-              Here is a subtitle for this table
-            </p>
+            <h4 className={classes.cardTitleWhite}>List of personnel</h4>
           </CardHeader>
           <CardBody>
+            <p>Show  <input type="number"
+            min="10"
+            max={users? users.length: 0}
+            value={entAmount}
+     onChange={entryHandler}/>entries</p>
             <Table
               tableHeaderColor="primary"
-              tableHead={["Name", "Country", "City", "Salary"]}
-              tableData={[
-                ["Dakota Rice", "Niger", "Oud-Turnhout", "$36,738"],
-                ["Minerva Hooper", "Curaçao", "Sinaai-Waas", "$23,789"],
-                ["Sage Rodriguez", "Netherlands", "Baileux", "$56,142"],
-                ["Philip Chaney", "Korea, South", "Overland Park", "$38,735"],
-                ["Doris Greene", "Malawi", "Feldkirchen in Kärnten", "$63,542"],
-                ["Mason Porter", "Chile", "Gloucester", "$78,615"]
-              ]}
+              tableHead={["Name", "Role", "Email"]}
+              tableData={getUserList()}
             />
-          </CardBody>
-        </Card>
-      </GridItem>
-      <GridItem xs={12} sm={12} md={12}>
-        <Card plain>
-          <CardHeader plain color="primary">
-            <h4 className={classes.cardTitleWhite}>
-              Table on Plain Background
-            </h4>
-            <p className={classes.cardCategoryWhite}>
-              Here is a subtitle for this table
+            <p>
+            <Button onClick= {previousHandler}>Previous</Button>
+            <Button onClick= {nextHandler}>Next</Button>
+              Showing {entAmount} of {users? users.length: 0} users.
             </p>
-          </CardHeader>
-          <CardBody>
-            <Table
-              tableHeaderColor="primary"
-              tableHead={["ID", "Name", "Country", "City", "Salary"]}
-              tableData={[
-                ["1", "Dakota Rice", "$36,738", "Niger", "Oud-Turnhout"],
-                ["2", "Minerva Hooper", "$23,789", "Curaçao", "Sinaai-Waas"],
-                ["3", "Sage Rodriguez", "$56,142", "Netherlands", "Baileux"],
-                [
-                  "4",
-                  "Philip Chaney",
-                  "$38,735",
-                  "Korea, South",
-                  "Overland Park"
-                ],
-                [
-                  "5",
-                  "Doris Greene",
-                  "$63,542",
-                  "Malawi",
-                  "Feldkirchen in Kärnten"
-                ],
-                ["6", "Mason Porter", "$78,615", "Chile", "Gloucester"]
-              ]}
-            />
           </CardBody>
         </Card>
       </GridItem>

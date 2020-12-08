@@ -21,7 +21,7 @@ import Button from "components/CustomButtons/Button.js";
 
 import styles from "assets/jss/material-dashboard-react/components/headerLinksStyle.js";
 import { useDispatch } from 'react-redux';
-import { logIn, logOut} from '../../reducers/userReducer.js';
+import { logOut} from '../../reducers/loginReducer.js';
 import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles(styles);

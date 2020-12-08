@@ -11,6 +11,13 @@ const userSchema = new Schema({
         trim: true,
         unique: true
     },
+    email: {
+        type: String,
+        required: true,
+        minlength: 5,
+        trim: true,
+        unique: true
+    },
     passwordHash: {
         type: String,
         required: true,
@@ -20,7 +27,11 @@ const userSchema = new Schema({
     bugs: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Bug'
-    }]
+    }],
+    role: {
+        type: String,
+        trim: true
+    }
     
 })
 userSchema.set('toJSON', {

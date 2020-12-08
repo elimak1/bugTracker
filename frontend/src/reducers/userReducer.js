@@ -1,26 +1,32 @@
-const logReducer = (state = null, action) => {
+import axios from "axios";
+
+const BASEURL = 'http://localhost:3001/users/';
+
+const userReducer = (state = null, action) => {
 
     switch(action.type) {
-        case 'LOGOUT': 
-            return null;
-        case 'LOGIN':
+        case 'INIT': 
             return action.data;
         default:
             return state;
     }
   }
 
-export const logOut = () => {
-  return {
-    type: 'LOGOUT'
-  }
+export const initUsers = () => {
+    return async dispatch => {
+        let users = null;
+        try {
+            const res = await axios.get(BASEURL);
+            users=res.data;
+        } catch(e) {
+            console.log(e);
+        }
+        
+        dispatch({
+          type: 'INIT',
+          data: users,
+        })
+    }
 }
 
-export const logIn = (user) => {
-    return {
-      type: 'LOGIN',
-      data: user
-    }
-  }
-
-export default logReducer;
+export default userReducer;

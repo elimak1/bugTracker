@@ -9,7 +9,8 @@ import Login from "components/Login/Login.js";
 import "assets/css/material-dashboard-react.css?v=1.9.0";
 
 import { useDispatch, useSelector} from 'react-redux';
-import { logIn, logOut} from 'reducers/userReducer.js';
+import { initLogin} from 'reducers/loginReducer.js';
+import { initUsers} from 'reducers/userReducer';
 import { Store } from '@material-ui/icons';
 
 function App() {
@@ -19,13 +20,9 @@ function App() {
 
 
    React.useEffect( () => {
-    const loggedUserJSON = window.localStorage.getItem('loggedUser');
-    if (loggedUserJSON) {
-      dispatch(logIn(JSON.parse(loggedUserJSON)));
-    } else{
-        dispatch(logOut());
-    }
-  }, [dispatch]);
+    dispatch(initUsers());
+    dispatch(initLogin());
+  }, []);
 
   return (
     <div>
@@ -33,7 +30,7 @@ function App() {
     <Router history={hist}>
     <Switch>
     <Route path="/login">
-            {useSelector(state => state) ? <Redirect to="/" /> : <Login />}
+            {useSelector(state => state.login) ? <Redirect to="/" /> : <Login />}
     </Route>
       <Route path="/admin" component={Admin} />
       <Route path="/rtl" component={RTL} />

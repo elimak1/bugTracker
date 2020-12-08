@@ -3,6 +3,16 @@ import bcrypt from 'bcrypt';
 let User = require('../models/user');
 const router = express.Router();
 
+const jwt = require('jsonwebtoken')
+
+const getTokenFrom = req => {
+    const authorization = req.get('Authorization');
+    if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+      return authorization.substring(7);
+    }
+    return null;
+  }
+
 router.get('/', async (_req, res) => {
     
     try {
@@ -20,10 +30,13 @@ router.post('/', async (req,res) => {
         res.status(400).json('Password too short');
         return;
     }
-    const saltRounds = 10
+    const saltRounds: number = 10
     const passwordHash = await bcrypt.hash(req.body.password, saltRounds)
     const name: string = req.body.name;
-    const newUser = new User({username: name, passwordHash, bugs: []});
+    const email: string = req.body.email;
+    const role: string | undefined = req.body.role;
+
+    const newUser = new User({username: name, email,role, passwordHash, bugs: []});
     
     try{
         const addedUser = await newUser.save();
@@ -50,14 +63,24 @@ router.delete('/:id', (req,res) => {
     
 });
 
-router.post('/update/:id', (req,res) => {
+router.post('/update/role/:id', async (req,res) => {
+
+    const token = getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET)
     
-    const name: string = req.body.name;
-    const newUser = new User({username: name});
-    
-    User.findByIdANdUpdate(req.body.id, newUser)
-        .then(() => res.json('User added'))
-        .catch(e => res.status(400).json('Error: ' + e));
+    // Users token needed to post a bug
+    if (!token || !decodedToken.id) {
+        return res.status(401).json({ error: 'token missing or invalid' })
+      }
+
+    try {
+        await User.findByIdAndUpdate(req.params.id, {role: req.body.role})
+        res.json("user updated");
+    } catch(e) {
+        console.log(e);
+        res.status(400).json('Error: ' + e);
+    }
+        
 });
      
 
