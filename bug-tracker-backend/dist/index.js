@@ -8,7 +8,7 @@ const cors_1 = __importDefault(require("cors"));
 const mongoose_1 = __importDefault(require("mongoose"));
 require('dotenv').config();
 const app = express_1.default();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 app.use(cors_1.default());
 app.use(express_1.default.json());
 const URI = process.env.MONGO_URI;
@@ -20,8 +20,10 @@ connection.once('open', () => {
 });
 const usersRouter = require('./routes/users');
 const bugsRouter = require('./routes/bugs');
+const loginRouter = require('./routes/login');
 app.use('/users', usersRouter);
 app.use('/bugs', bugsRouter);
+app.use('/login', loginRouter);
 app.get('/', (req, res) => {
     res.send('The sedulous hyena ate the antelope!');
 });

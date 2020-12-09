@@ -34,7 +34,10 @@ router.post('/', async (req,res) => {
     const passwordHash = await bcrypt.hash(req.body.password, saltRounds)
     const name: string = req.body.name;
     const email: string = req.body.email;
-    const role: string | undefined = req.body.role;
+    let role: string= "N/A"
+    if(req.body.role) {
+        role = req.body.role;
+    }
 
     const newUser = new User({username: name, email,role, passwordHash, bugs: []});
     

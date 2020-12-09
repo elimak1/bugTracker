@@ -18,7 +18,18 @@ const bugSchema = new Schema({
         minlength: 10,
         trim: true
     },
+    user: {
+        type: mongoose_1.default.Schema.Types.ObjectId,
+        ref: 'User'
+    }
 });
-const Bug = mongoose_1.default.model('User', bugSchema);
+bugSchema.set('toJSON', {
+    transform: (document, returnedObject) => {
+        returnedObject.id = returnedObject._id.toString();
+        delete returnedObject._id;
+        delete returnedObject.__v;
+    }
+});
+const Bug = mongoose_1.default.model('Bug', bugSchema);
 module.exports = Bug;
 //# sourceMappingURL=bug.js.map
