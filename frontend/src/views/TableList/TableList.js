@@ -1,7 +1,7 @@
 import React from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-import {Button, Link} from "@material-ui/core"
+import {Button} from "@material-ui/core"
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
@@ -10,8 +10,9 @@ import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import { useSelector} from 'react-redux';
-import { TableSortLabel, TextField, Grid } from '@material-ui/core';
-import { FormatAlignRight, VerticalAlignCenter } from "@material-ui/icons";
+import { TableSortLabel, TextField, Grid, Menu, MenuItem} from '@material-ui/core';
+import { useDispatch } from 'react-redux';
+import {updateRole} from "../../reducers/userReducer";
 
 const styles = {
   cardCategoryWhite: {
@@ -47,13 +48,26 @@ const useStyles = makeStyles(styles);
 
 export default function TableList() {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const users = useSelector(state => state.users);
+  const login = useSelector(state => state.login);
 
   const [entAmount, setEntAmout] = React.useState(10);
   const [page, setPage] = React.useState(1);
   const [sortUp, setSortUp] = React.useState(true);
   const [sortBy, setSortBy] = React.useState("name");
   const [filter, setFilter] = React.useState("");
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  // User doesn't save with roleedit so save to state then
+  const [editThisUser, setEditThisUser] = React.useState(null);
+
+  const roles = [
+    "Developer",
+    "Project manager",
+    "Submittter",
+    "Admin"
+  ]
 
   React.useEffect( () => {
     if(users) {
@@ -67,7 +81,7 @@ export default function TableList() {
       const filtered = users.filter(user => user.username.includes(filter) ||user.role.includes(filter) ||user.email.includes(filter));
       const pageOfUsers= filtered.slice((page-1)*entAmount,page*entAmount);
       return pageOfUsers.map(user => 
-        [user.username, user.role? user.role: "N/A",
+      [user.username, roleCell(user),
       user.email? user.email: "Not found"]);
     }
     else {
@@ -139,6 +153,68 @@ export default function TableList() {
     }    
   }
 
+  const roleCell = (user) => {
+    if (user.role) {
+      return (
+        <span>{user.role}
+        {editRole(user)}</span>
+      )
+    }
+    return (
+      <span>N/A
+      {editRole(user)}</span>
+    )
+  }
+
+
+  const editRole = (user) => {
+    const saveChange = (event) => {
+      dispatch(updateRole(editThisUser.id, editThisUser.role, login.token));
+
+    }
+
+    const handleClick = (event) => {
+      setEditThisUser(user);
+      setAnchorEl(event.currentTarget);
+    };
+  
+    const handleClose = (role= null) => {     
+      if(role) {    
+        // It just works
+        let us = editThisUser;
+        us.role = role;
+      }
+      setAnchorEl(null);
+    };
+  
+    return (
+      <span>
+        <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+          Edit
+        </Button>
+        <Menu
+          id="simple-menu"
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={() => handleClose()}
+        >
+          {roles.map(role => <MenuItem onClick={() => handleClose(role)}
+          key={user.id + role}
+          >{role}</MenuItem> )}
+        </Menu>
+
+      {
+        user===editThisUser? <Button id={user.id+ "save"} onClick={saveChange}>
+        Submit
+      </Button>: ""
+      }
+        
+      </span>
+    );
+  }
+
+
 
   const tableHeaderLinks = () =>{
     return(
@@ -146,7 +222,7 @@ export default function TableList() {
       onClick={sortByName}>
       Name
       <TableSortLabel
-      active = {sortBy == "name"}
+      active = {sortBy === "name"}
       direction = {sortUp? "desc": "asc"}
       />
       </p>,
@@ -154,7 +230,7 @@ export default function TableList() {
       onClick={sortByRole}>
       Role
       <TableSortLabel
-      active = {sortBy == "role"}
+      active = {sortBy === "role"}
       direction = {sortUp? "desc": "asc"}
       />
       </p>,
@@ -162,7 +238,7 @@ export default function TableList() {
       onClick={sortByEmail}>
       Email
       <TableSortLabel
-      active = {sortBy == "email"}
+      active = {sortBy === "email"}
       direction = {sortUp? "desc": "asc"}
       />
       </p>]

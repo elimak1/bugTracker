@@ -1,8 +1,0 @@
-POST http://localhost:3001/users
-Content-Type: application/json
-
-{
-    "name": "sdfpssiopåfiojåsaåjpifj3fj98jf908+23jf98j98jfj980j89s0fj8d98j90sd8j9f0s8j9sfd8sfj9d8j90sf8j90sf8j90as8j90sd8j09sdslkanmfdslkanhuiiureuiheruirueiuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuflösdan",
-    "password": "dsdssdds",
-    "email": "huutifdsfdsssds@xd.com"
-}

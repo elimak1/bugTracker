@@ -1,6 +1,5 @@
 import React from 'react';
-import {BrowserRouter as Router, Route, Switch, Link, Redirect} from "react-router-dom";
-import { Button } from '@material-ui/core';
+import {BrowserRouter as Router, Route, Switch,Redirect} from "react-router-dom";
 import { createBrowserHistory } from "history";
 
 import Admin from "layouts/Admin.js";
@@ -11,7 +10,6 @@ import "assets/css/material-dashboard-react.css?v=1.9.0";
 import { useDispatch, useSelector} from 'react-redux';
 import { initLogin} from 'reducers/loginReducer.js';
 import { initUsers} from 'reducers/userReducer';
-import { Store } from '@material-ui/icons';
 
 function App() {
 

@@ -1,9 +1,8 @@
 import React from 'react';
 import {TextField, Button, Grid, Card, CardContent, Avatar, Typography, makeStyles} from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import axios from 'axios';
 import {useHistory} from "react-router-dom";
-import {BrowserRouter as  Router, Route, Switch, Link, Redirect} from "react-router-dom";
+import {BrowserRouter as   Link} from "react-router-dom";
 import Background from '../../images/buground.jpg';
 
 import { useDispatch } from 'react-redux';

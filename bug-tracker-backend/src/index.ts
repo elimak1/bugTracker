@@ -11,7 +11,7 @@ app.use(express.json());
 
 const URI = process.env.MONGO_URI
 mongoose.connect(URI, {useNewUrlParser: true, useCreateIndex: true,
-    useUnifiedTopology: true});
+    useUnifiedTopology: true, useFindAndModify: false});
 const connection = mongoose.connection;
 connection.once('open', () => {
     console.log("Connected to MongoDB server");

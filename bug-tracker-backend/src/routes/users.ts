@@ -71,14 +71,16 @@ router.post('/update/role/:id', async (req,res) => {
     const token = getTokenFrom(req);
     const decodedToken = jwt.verify(token, process.env.SECRET)
     
-    // Users token needed to post a bug
+    // Users token needed 
     if (!token || !decodedToken.id) {
         return res.status(401).json({ error: 'token missing or invalid' })
       }
 
     try {
-        await User.findByIdAndUpdate(req.params.id, {role: req.body.role})
-        res.json("user updated");
+        let updated = await User.findByIdAndUpdate(req.params.id, {role: req.body.role})
+        // response doesn't have updated role xd
+        updated.role = req.body.role;
+        res.json(updated);
     } catch(e) {
         console.log(e);
         res.status(400).json('Error: ' + e);
