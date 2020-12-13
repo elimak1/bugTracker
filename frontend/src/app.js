@@ -10,6 +10,7 @@ import "assets/css/material-dashboard-react.css?v=1.9.0";
 import { useDispatch, useSelector} from 'react-redux';
 import { initLogin} from 'reducers/loginReducer.js';
 import { initUsers} from 'reducers/userReducer';
+import {initProjects} from 'reducers/projectReducer';
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
    React.useEffect( () => {
     dispatch(initUsers());
     dispatch(initLogin());
+    dispatch(initProjects());
   }, []);
 
   return (

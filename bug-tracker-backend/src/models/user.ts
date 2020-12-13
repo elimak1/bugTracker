@@ -27,7 +27,7 @@ const userSchema = new Schema({
         required: true,
         minlength: 6,
         trim: true,
-        maxlength: 30
+        maxlength: 100
     },
     bugs: [{
         type: mongoose.Schema.Types.ObjectId,

@@ -2,7 +2,7 @@ import React from 'react';
 import {TextField, Button, Grid, Card, CardContent, Avatar, Typography, makeStyles} from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import {useHistory} from "react-router-dom";
-import {BrowserRouter as   Link} from "react-router-dom";
+import {BrowserRouter as  Switch, Route, Redirect, Link} from "react-router-dom";
 import Background from '../../images/buground.jpg';
 
 import { useDispatch } from 'react-redux';
@@ -105,7 +105,7 @@ const LoginPage=  () => {
                         </Button>
                         <div>
                             <p>forgot <Link to="/">password</Link></p>
-                            <p><Link to="/signup">create account</Link></p>
+                            <p><Link to="/login/signup">create account</Link></p>
                         </div>
                     </form>
                 </CardContent>
