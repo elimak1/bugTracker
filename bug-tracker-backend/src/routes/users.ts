@@ -16,7 +16,8 @@ const getTokenFrom = req => {
 router.get('/', async (_req, res) => {
     
     try {
-        const users = await User.find().populate('bugs', { title: 1, description: 1 });
+        const users = await User.find().populate('bugs', { title: 1, description: 1 })
+        .populate('projects', { title: 1, description: 1});
         res.json(users);
     } catch(e) {
         console.log(e);
@@ -39,7 +40,7 @@ router.post('/', async (req,res) => {
         role = req.body.role;
     }
 
-    const newUser = new User({username: name, email,role, passwordHash, bugs: []});
+    const newUser = new User({username: name, email,role, passwordHash, bugs: [], project: []});
     
     try{
         const addedUser = await newUser.save();
@@ -52,18 +53,30 @@ router.post('/', async (req,res) => {
         
     
 });
-router.get('/:id', (req,res) => {
-        User.findById(req.params.id)
-        .then(user => res.json(user))
-        .catch(e => res.status(400).json('Error: ' + e));
-        
+router.get('/:id', async (req,res) => {
+    try{
+        const user = await User.findById(req.params.id);
+        res.json(user);
+    } catch(e) {
+        res.status(400).json('Error: ' + e);
+    }      
 });
 
-router.delete('/:id', (req,res) => {
-    User.findByIdAndDelete(req.params.id)
-    .then( () => res.json("User deleted"))
-    .catch(e => res.status(400).json('Error: ' + e));
+router.delete('/:id', async (req,res) => {
+
+    const token = getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET)
     
+    // Users token needed 
+    if (!token || !decodedToken.id) {
+        return res.status(401).json({ error: 'token missing or invalid' })
+      }
+    try{
+        const deleted = await User.findByIdAndDelete(req.params.id);
+        res.json(deleted);
+    } catch(e) {
+        res.status(400).json('Error: ' + e);
+    }      
 });
 
 router.post('/update/role/:id', async (req,res) => {

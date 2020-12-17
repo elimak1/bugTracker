@@ -17,8 +17,14 @@ const bugSchema= new Schema({
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-      }
+        ref: 'User',
+        required: true,
+      },
+    project: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Project',
+      required: true,
+    }
 })
 
 bugSchema.set('toJSON', {

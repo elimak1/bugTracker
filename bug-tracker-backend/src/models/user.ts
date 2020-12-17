@@ -37,7 +37,11 @@ const userSchema = new Schema({
         type: String,
         trim: true,
         maxlength: 15
-    }
+    },
+    projects: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Project',
+      }]
     
 })
 userSchema.set('toJSON', {

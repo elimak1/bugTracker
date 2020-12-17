@@ -15,15 +15,15 @@ const projectSchema= new Schema({
         minlength: 10,
         trim: true
     },
-    personnel: {
+    personnel: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
-      },
+      }],
 
-    tickets: {
+    tickets: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Bug'
-    }
+    }]
 })
 
 projectSchema.set('toJSON', {
