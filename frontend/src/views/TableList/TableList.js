@@ -46,10 +46,10 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-export default function TableList() {
+export default function TableList(props) {
+  let users = props.users;
   const classes = useStyles();
   const dispatch = useDispatch();
-  const users = useSelector(state => state.users);
   const login = useSelector(state => state.login);
 
   const [entAmount, setEntAmout] = React.useState(10);

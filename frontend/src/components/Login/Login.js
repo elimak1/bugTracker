@@ -1,8 +1,7 @@
 import React from 'react';
 import {TextField, Button, Grid, Card, CardContent, Avatar, Typography, makeStyles} from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import {useHistory} from "react-router-dom";
-import {BrowserRouter as  Switch, Route, Redirect, Link} from "react-router-dom";
+import {Link} from "react-router-dom";
 import Background from '../../images/buground.jpg';
 
 import { useDispatch } from 'react-redux';
@@ -35,7 +34,6 @@ const LoginPage=  () => {
     const [password, setPassword] = React.useState('');
 
     const dispatch = useDispatch();
-    const history = useHistory();
     
     
     const handleLogin = (event) => {

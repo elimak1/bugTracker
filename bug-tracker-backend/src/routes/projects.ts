@@ -16,7 +16,9 @@ const getTokenFrom = req => {
 
 router.get('/', async (_req, res) => {
     try {
-        const projects = await Project.find().populate('personnel', {username : 1}).populate('tickets', {title : 1});
+        const projects = await Project.find().populate('personnel', {username: 1, email: 1, role: 1})
+        .populate({path: 'tickets', populate: {path:'assignedTo'}})
+        .populate({path: 'tickets', populate: {path:'user'}});
         res.json(projects);
     } catch(e) {
         console.log(e);

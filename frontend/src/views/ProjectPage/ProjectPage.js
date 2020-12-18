@@ -1,12 +1,10 @@
 import React from "react";
 import { useSelector} from 'react-redux';
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
   useParams
 } from "react-router-dom";
+import TableList from "views/TableList/TableList";
+import TicketTable from "views/TableList/ticketTable"
 
 export default function ProjectPage() {
 
@@ -18,12 +16,13 @@ export default function ProjectPage() {
   } else{
     return(<div> project could not be fetched</div>)
   }
-  console.log(project);
 
   return (
     <div>
       <h2>{project.title}</h2>
       <h4>{project.description}</h4>
+      <TicketTable tickets = {project.tickets} />
+      <TableList users = {project.personnel} />
 
     </div>
     

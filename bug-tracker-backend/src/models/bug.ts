@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { type } from 'os';
 
 const Schema = mongoose.Schema;
 
@@ -24,7 +25,31 @@ const bugSchema= new Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Project',
       required: true,
-    }
+    },
+    assignedTo: {
+      type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
+    },
+    priority: {
+      type: String,
+    },
+    open: {
+      type: Boolean
+    }, 
+    type: {
+      type: String,
+      required: true
+    },
+    created: {
+      type: String
+    },
+    updated: {
+      type: String
+    },
+    history: [{
+
+    }]
 })
 
 bugSchema.set('toJSON', {

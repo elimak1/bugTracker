@@ -17,7 +17,8 @@ const getTokenFrom = req => {
 router.get('/', async (_req, res) => {
     try {
         const bugs = await Bug.find().populate('user', {username : 1})
-        .populate('project', {title : 1});
+        .populate('project', {title : 1})
+        .populate('assignedTo', {username : 1});
         res.json(bugs);
     } catch(e) {
         console.log(e);
@@ -45,12 +46,24 @@ router.post('/', async (req,res) => {
         project = await Project.findById(req.body.project);
     } catch(e) {
         res.status(401).json({ error: 'project not found' });
-    }   
+    } 
+    
+    let assignedTo;
+    try {
+        assignedTo = await User.findById(req.body.assignedTo);
+    } catch(e) {
+        res.status(401).json({ error: 'assigned user not found' });
+    } 
     
     const title: string = req.body.title;
     const description: string = req.body.description;
 
-    const newBug = new Bug({title,description, user: user._id, project: project._id});
+    const date: Date = new Date();
+    const formattedDate: String = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate() + " " + 
+    date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+
+    const newBug = new Bug({title,description, user: user._id, project: project._id, assignedTo: assignedTo._id,
+    priority: "High", open: true, type: req.body.type, history: [], created: formattedDate});
     
     try {
         const savedBug = await newBug.save();

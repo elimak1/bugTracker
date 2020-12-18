@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useSelector} from 'react-redux';
 
 const BASEURL = 'http://localhost:3001/projects/';
 
