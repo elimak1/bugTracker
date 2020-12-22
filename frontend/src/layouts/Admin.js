@@ -69,9 +69,9 @@ export default function Admin({ ...rest }) {
     const user = useSelector(state => state.login);
     let welcome = "";
     if(user) {
-      welcome = "Welcome, " +user.username;
+      welcome =  user.username;
     } else {
-      welcome = "please login";
+      welcome = "nvm please login";
     }
 
   

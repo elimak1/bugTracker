@@ -10,6 +10,7 @@ import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import { TableSortLabel, TextField, Grid} from '@material-ui/core';
+import { Link} from "react-router-dom";
 
 const styles = {
   cardCategoryWhite: {
@@ -70,7 +71,7 @@ export default function TicketTable(props) {
       ticket.created.includes(filter));
       const pageOfUsers= filtered.slice((page-1)*entAmount,page*entAmount);
       return pageOfUsers.map(ticket => 
-      [ticket.title, ticket.user.username, ticket.assignedTo.username, ticket.open? "Open": "Closed", ticket.created]);
+      [<Link to= {"/admin/tickets/" + ticket.id} >{ticket.title} </Link>, ticket.user.username, ticket.assignedTo.username, ticket.open? "Open": "Closed", ticket.created]);
     }
     else {
       return [["Ticket list could not be fetched"]];

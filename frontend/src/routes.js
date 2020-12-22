@@ -26,6 +26,7 @@ import DashboardPage from "views/Dashboard/Dashboard.js";
 import UserProfile from "views/UserProfile/UserProfile.js";
 import Users from "views/UserPage/Users";
 import Projects from "views/ProjectPage/Projects";
+import Tickets from "views/TicketPage/Tickets";
 import Icons from "views/Icons/Icons.js";
 import NotificationsPage from "views/Notifications/Notifications.js";
 
@@ -63,11 +64,11 @@ const dashboardRoutes = [
     layout: "/admin"
   },
   {
-    path: "/icons",
-    name: "Icons",
+    path: "/tickets",
+    name: "Tickets",
     rtlName: "الرموز",
     icon: BubbleChart,
-    component: Icons,
+    component: Tickets,
     layout: "/admin"
   },
   {

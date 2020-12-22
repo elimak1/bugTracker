@@ -11,6 +11,7 @@ import { useDispatch, useSelector} from 'react-redux';
 import { initLogin} from 'reducers/loginReducer.js';
 import { initUsers} from 'reducers/userReducer';
 import {initProjects} from 'reducers/projectReducer';
+import {initTickets} from 'reducers/ticketReducer';
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
     dispatch(initUsers());
     dispatch(initLogin());
     dispatch(initProjects());
+    dispatch(initTickets());
   }, []);
 
   return (
