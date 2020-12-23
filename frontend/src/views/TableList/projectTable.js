@@ -1,7 +1,7 @@
 import React from "react";
+import { Link, useHistory} from "react-router-dom";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-import {Button} from "@material-ui/core"
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
@@ -10,8 +10,10 @@ import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import { useSelector} from 'react-redux';
-import { TableSortLabel, TextField, Grid} from '@material-ui/core';
-import { Link} from "react-router-dom";
+import { TableSortLabel, TextField, Grid, Button} from '@material-ui/core';
+
+
+
 
 const styles = {
   cardCategoryWhite: {
@@ -48,6 +50,7 @@ const useStyles = makeStyles(styles);
 export default function ProjectTabale() {
   const classes = useStyles();
   const projects = useSelector(state => state.projects);
+  let history = useHistory();
 
   const [entAmount, setEntAmout] = React.useState(10);
   const [page, setPage] = React.useState(1);
@@ -145,11 +148,16 @@ export default function ProjectTabale() {
     )
   }
   return (
+    <div>
+
+      <Button color="primary" onClick={() =>history.push("/admin/projects/create")}>CREATE NEW PROJECT</Button>   
     <GridContainer>
+      
       <GridItem xs={12} sm={12} md={12}>
         <Card>
           <CardHeader color="primary">
-            <h4 className={classes.cardTitleWhite}>List of projects</h4>
+            <h4 className={classes.cardTitleWhite}>List of projects </h4>
+            
           </CardHeader>
           <CardBody>
           <Grid container direction="row" item xs={12} justify="space-between" alignItems="center">
@@ -177,5 +185,6 @@ export default function ProjectTabale() {
         </Card>
       </GridItem>
     </GridContainer>
+    </div>
   );
 }

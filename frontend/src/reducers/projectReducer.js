@@ -7,6 +7,8 @@ const projectReducer = (state = null, action) => {
     switch(action.type) {
         case 'INITPROJECTS': 
             return action.data;
+        case 'ADDPROJECT':
+            return state.concat(action.data);
         default:
             return state;
     }
@@ -30,5 +32,27 @@ export const initProjects = () => {
     }
 }
 
+
+export const newProject = (title, description, token) => {
+    return async dispatch => {
+        try {
+            const res = await axios.post(BASEURL, {title, description},
+                {
+                    headers: {
+                      'Authorization': `BEARER ${token}` 
+                    }}
+                );
+            const project=res.data;
+            dispatch({
+                type: 'ADDPROJECT',
+                data: project,
+              })
+        } catch(e) {
+            console.log(e);
+        }
+        
+        
+    }
+}
 
 export default projectReducer;

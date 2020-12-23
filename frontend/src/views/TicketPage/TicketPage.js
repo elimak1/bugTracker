@@ -138,9 +138,7 @@ export default function TicketPage() {
                 </div>
                 </Grid>
             </Grid>
-        </Grid>
-        
-        
+        </Grid>        
       </CardBody>
     </Card>
   );

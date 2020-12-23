@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector} from 'react-redux';
 import {
+  Redirect,
   useParams
 } from "react-router-dom";
 import TableList from "views/TableList/TableList";
@@ -13,8 +14,11 @@ export default function ProjectPage() {
   let project = null;
   if(projects) {
     project = projects.find(proj => proj.id === id);
+    if(!project) {
+      return(<Redirect to="/admin/projects"/>);
+    }
   } else{
-    return(<div> project could not be fetched</div>)
+    return(<Redirect to="/admin/projects"/>)
   }
 
   return (
