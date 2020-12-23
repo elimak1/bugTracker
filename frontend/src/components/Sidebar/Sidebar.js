@@ -82,8 +82,7 @@ export default function Sidebar(props) {
   );
   var brand = (
     <div className={classes.logo}>
-      <a
-        href="https://www.creative-tim.com?ref=mdr-sidebar"
+      <div
         className={classNames(classes.logoLink, {
           [classes.logoLinkRTL]: props.rtlActive
         })}
@@ -94,7 +93,7 @@ export default function Sidebar(props) {
         </div>
         Welcome <br></br>
         {logoText}
-      </a>
+      </div>
     </div>
   );
   return (
