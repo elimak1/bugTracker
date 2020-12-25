@@ -99,7 +99,7 @@ export default function TicketPage() {
                         <h4>{ticket.user.username}</h4>
                     </div>
                 </Grid>
-                <Grid item lineHeight="52px">
+                <Grid item>
                     <div className={classes.typo}>
                         <div className={classes.note}>Project</div>
                         <h4>{ticket.project.title}</h4>
