@@ -66,7 +66,10 @@ router.post('/', async (req,res) => {
     priority: "High", open: true, type: req.body.type, history: [], created: formattedDate});
     
     try {
-        const savedBug = await newBug.save();
+        let savedBug = await newBug.save();
+        savedBug = savedBug
+        .populate('project', {title : 1})
+        .populate('assignedTo', {username : 1});
         user.bugs = user.bugs.concat(savedBug._id);
         await user.save();
         project.tickets = project.tickets.concat(savedBug._id)

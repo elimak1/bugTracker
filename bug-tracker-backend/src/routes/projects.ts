@@ -54,7 +54,10 @@ router.post('/', async (req,res) => {
     const newProject = new Project({title,description, user: user._id, personnel:[user._id]});
     
     try {
-        const saved = await newProject.save();
+        let saved = await newProject.save();
+         saved = saved.populate('personnel', {username: 1, email: 1, role: 1})
+        .populate({path: 'tickets', populate: {path:'assignedTo'}})
+        .populate({path: 'tickets', populate: {path:'user'}});
         res.json(saved);
     } catch(e) {
         console.log(e);

@@ -37,7 +37,7 @@ const useStyles = makeStyles(styles);
 
 
 
-export default function TicketForm(project) {
+export default function TicketForm({project}) {
   const classes = useStyles();
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
@@ -47,6 +47,7 @@ export default function TicketForm(project) {
   const login = useSelector(state => state.login);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorUser, setAnchorUser] = React.useState(null);
   const dispatch = useDispatch();
 
   const handleSubmit = (event) => {
@@ -93,6 +94,42 @@ export default function TicketForm(project) {
       );
     }
 
+    const assignDropdown = () => {
+
+      let types = project.personnel.map(user => user.username);
+      if (!types) {
+        types = ["xd"]
+      }
+  
+      const handleClick = (event) => {
+        setAnchorUser(event.currentTarget);
+      };
+    
+      const handleClose = (type=null) => {
+        setAssignedTo(type);
+        setAnchorUser(null);
+      };
+    
+      return (
+        <span>
+          <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+            Assign to a developer
+          </Button>
+          <Menu
+            id="simple-menu"
+            anchorEl={anchorUser}
+            keepMounted
+            open={Boolean(anchorUser)}
+            onClose={() => handleClose()}
+          >
+            {types.map(type => <MenuItem onClick={() =>handleClose(type)}
+            key={type}
+            >{type}</MenuItem> )}
+          </Menu>
+          <p>{assignedTo}</p>        
+        </span>
+      );
+    }
 
   return (
     <div>
@@ -132,17 +169,7 @@ export default function TicketForm(project) {
                   />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={5}>
-                  <CustomInput
-                    labelText="Assign to developer"
-                    id="assignedTo"
-                    formControlProps={{
-                      fullWidth: true,
-                      onChange: (event) => setAssignedTo(event.target.value),
-                    }}
-                    inputProps={{
-                        value: assignedTo
-                      }}
-                  />
+                    {assignDropdown()}
                 </GridItem>
                 <GridItem xs={12} sm={12} md={7}>
                   {ticketType()}

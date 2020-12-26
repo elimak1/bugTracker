@@ -31,7 +31,7 @@ export default function ProjectPage() {
       <h2>{project.title}</h2>
       <h4>{project.description}</h4>
       <Button onClick={()=>setOpenForm(!openForm)}>{openForm? "Close form": "Create a new ticket"}</Button>
-      {openForm? <TicketForm project/>: ""}
+      {openForm? <TicketForm project={project}/>: ""}
       <TicketTable tickets = {project.tickets} />
       <TableList users = {project.personnel} />
 
