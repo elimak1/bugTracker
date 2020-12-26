@@ -67,13 +67,14 @@ router.post('/', async (req,res) => {
     
     try {
         let savedBug = await newBug.save();
-        savedBug = savedBug
-        .populate('project', {title : 1})
-        .populate('assignedTo', {username : 1});
         user.bugs = user.bugs.concat(savedBug._id);
         await user.save();
         project.tickets = project.tickets.concat(savedBug._id)
         await project.save();
+        await savedBug.populate('user', {username : 1}).execPopulate();
+        await savedBug.populate('project', {title : 1}).execPopulate();
+        await savedBug.populate('assignedTo', {username : 1}).execPopulate();
+        console.log(savedBug);
         res.json(savedBug);
     } catch(e) {
         console.log(e);

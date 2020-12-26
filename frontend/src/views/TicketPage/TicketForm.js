@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch} from 'react-redux';
+import {newTicket} from "../../reducers/ticketReducer"
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // core components
@@ -52,12 +53,20 @@ export default function TicketForm({project}) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(title, description, login.token);
+    try{
+      const userId = project.personnel.find(person => person.username === assignedTo).id;
+
+      dispatch(newTicket(title,description,selectedType,
+         project.id, userId, login.token));
+      setMessage("submitted");
+    } catch(e) {
+      console.log("problem with selected fields")
+      setMessage("something went wrong");
+    }    
     setTitle("");
     setDescription("");
     setAssignedTo("");
     setSelectedType("Bugs/Errors");
-    setMessage("submitted");
   }
 
     const ticketType = () => {

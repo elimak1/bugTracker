@@ -9,6 +9,10 @@ const projectReducer = (state = null, action) => {
             return action.data;
         case 'ADDPROJECT':
             return state.concat(action.data);
+        case 'ADDPROJECTTICKET':
+            let project = state.find(p => p.id === action.data.id);
+            project.tickets = project.tickets.concat(action.data.ticket)
+            return state.map(pr => pr.id === action.data.id? project: pr);
         default:
             return state;
     }
@@ -49,10 +53,9 @@ export const newProject = (title, description, token) => {
               })
         } catch(e) {
             console.log(e);
-        }
-        
-        
+        }   
     }
 }
+
 
 export default projectReducer;
