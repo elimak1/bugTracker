@@ -48,6 +48,9 @@ const bugSchema= new Schema({
     },
     revision: {
       type: Number
+    },
+    oldID: {
+        type: String
     }
 })
 
@@ -59,6 +62,6 @@ bugSchema.set('toJSON', {
     }
   })
 
-const Bug = mongoose.model('Bug', bugSchema);
+const BugHistory = mongoose.model('BugHistory', bugSchema);
 
-module.exports = Bug;
+module.exports = BugHistory;

@@ -2,6 +2,7 @@ import express from 'express';
 let Bug = require('../models/bug');
 let User = require('../models/user');
 let Project = require('../models/project');
+let BugHistory = require('../models/bugHistory');
 const router = express.Router();
 
 const jwt = require('jsonwebtoken');
@@ -24,6 +25,15 @@ router.get('/', async (_req, res) => {
         console.log(e);
         res.status(400).json('Error: ' + e);
     }
+});
+
+router.get('/:id', async (req,res) => {
+    try{
+        const bug = await Bug.findById(req.params.id);
+        res.json(bug);
+    } catch(e) {
+        res.status(400).json('Error: ' + e);
+    }      
 });
 
 router.post('/', async (req,res) => {
@@ -63,7 +73,7 @@ router.post('/', async (req,res) => {
     date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
 
     const newBug = new Bug({title,description, user: user._id, project: project._id, assignedTo: assignedTo._id,
-    priority: "High", open: true, type: req.body.type, history: [], created: formattedDate});
+    priority: "High", open: true, type: req.body.type, revision: 1, created: formattedDate});
     
     try {
         let savedBug = await newBug.save();
@@ -76,6 +86,75 @@ router.post('/', async (req,res) => {
         await savedBug.populate('assignedTo', {username : 1}).execPopulate();
         console.log(savedBug);
         res.json(savedBug);
+    } catch(e) {
+        console.log(e);
+        res.status(400).json('Error: ' + e);
+    }
+        
+});
+
+router.post('/update/:id', async (req,res) => {
+
+    const token = getTokenFrom(req);
+    if (!token) {
+        return res.status(401).json({ error: 'token missing or invalid' })
+      }
+    const decodedToken = jwt.verify(token, process.env.SECRET)
+    // Users token needed 
+    if (!decodedToken.id) {
+        return res.status(401).json({ error: 'token missing or invalid' })
+      }
+
+    // Add current ticket to history
+    let revision: Number;
+    try {
+        let old = await Bug.findById(req.params.id);
+        if (old.revision) {
+            revision = old.revision +1;
+        } else {
+            revision = 1;
+        }
+        console.log(old);
+        const bugToHistory = new BugHistory({
+            title: old.title,
+            description: old.description,
+            user: old.user,
+            project: old.project,
+            assignedTo: old.assignedTo,
+            priority: old.priority,
+            open: old.open,
+            type: old.type,
+            created: old.created,
+            oldID: old._id
+        });
+        console.log(bugToHistory);
+        await bugToHistory.save();
+    } catch(e) {
+        console.log(e);
+        return res.status(400).json('Error: ' + e);
+    }
+
+
+
+      const title: string = req.body.title;
+      const description: string = req.body.description;
+      const assignedTo: string = req.body.assignedTo;
+      const priority: string = req.body.priority;
+      const open: Boolean = req.body.open;
+      const type: string = req.body.type;
+  
+      const date: Date = new Date();
+      const formattedDate: String = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate() + " " + 
+      date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+
+
+    const updatedParams = {title, description, updated: formattedDate,
+    assignedTo, priority, open, type, revision};
+    try {
+        
+        await Bug.findByIdAndUpdate(req.params.id, updatedParams);
+        const getUpdated = await Bug.findById(req.params.id);
+        res.json(getUpdated);
     } catch(e) {
         console.log(e);
         res.status(400).json('Error: ' + e);
