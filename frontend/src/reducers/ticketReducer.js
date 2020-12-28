@@ -9,6 +9,8 @@ const ticketReducer = (state = null, action) => {
             return action.data;
         case 'ADDTICKET':
             return state.concat(action.data);
+        case 'EDITTICKET':
+            return state.map(tic => tic.id === action.data.id? action.data.ticket: tic);
         default:
             return state;
     }
@@ -41,7 +43,6 @@ export const newTicket = (title, description, type, projectId, assignedToId, tok
                     }}
                 );
             const ticket=res.data;
-            console.log(ticket);
             dispatch({
                 type: 'ADDTICKET',
                 data: ticket,
@@ -49,6 +50,31 @@ export const newTicket = (title, description, type, projectId, assignedToId, tok
             dispatch({
                 type: 'ADDPROJECTTICKET',
                 data: {id: projectId, ticket: ticket},
+              });
+        } catch(e) {
+            console.log(e);
+        }
+    }
+}
+
+export const editTicket = (title, description, type, priority, open, assignedToId, projectId, id, token) => {
+    return async dispatch => {
+        try {
+            console.log("sending request");
+            const res = await axios.post(BASEURL + "/update/" + id, {title, description, assignedTo: assignedToId, type, priority, open},
+                {
+                    headers: {
+                      'Authorization': `BEARER ${token}` 
+                    }}
+                );
+            const ticket=res.data;
+            dispatch({
+                type: 'EDITTICKET',
+                data: {id: id, ticket: ticket},
+              }); 
+            dispatch({
+                type: 'EDITROJECTTICKET',
+                data: {projectId: projectId,id: id, ticket: ticket},
               });
         } catch(e) {
             console.log(e);

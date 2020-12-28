@@ -1,12 +1,15 @@
 import React from "react";
 import { useSelector} from 'react-redux';
 import {
-  useParams
+  useParams, useHistory
 } from "react-router-dom";
+
+import TicketEdit from "./TicketEdit"
+
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // core components
-import {Grid} from "@material-ui/core"
+import {Button, Grid} from "@material-ui/core"
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
@@ -52,6 +55,9 @@ const useStyles = makeStyles(styles);
 export default function TicketPage() {
     
   const classes = useStyles();
+  const history = useHistory();
+
+  const [editMode, setEditMode] = React.useState(false);
 
   let { id } = useParams();
   const tickets = useSelector(state => state.tickets);
@@ -65,11 +71,14 @@ export default function TicketPage() {
 
   // Grid item heights change depending on h4 text for some reason????
   return (
+    <div>
+      {editMode? <TicketEdit ticket={ticket} close={() => setEditMode(false)}/>:"" }
+     
     <Card>
       <CardHeader color="primary">
         <h4 className={classes.cardTitleWhite}>Details for ticket: {id}</h4>
         <p className={classes.cardCategoryWhite}>
-          Back | Edit
+          <Button onClick={() => history.push("/admin/projects/" + ticket.project.id)}>Back</Button> | <Button onClick={() => setEditMode(true)}>Edit</Button>
         </p>
       </CardHeader>
       <CardBody>
@@ -141,5 +150,6 @@ export default function TicketPage() {
         </Grid>        
       </CardBody>
     </Card>
+    </div>
   );
 }

@@ -105,6 +105,7 @@ router.post('/update/:id', async (req,res) => {
         return res.status(401).json({ error: 'token missing or invalid' })
       }
 
+    console.log("user verified");
     // Add current ticket to history
     let revision: Number;
     try {
@@ -114,7 +115,6 @@ router.post('/update/:id', async (req,res) => {
         } else {
             revision = 1;
         }
-        console.log(old);
         const bugToHistory = new BugHistory({
             title: old.title,
             description: old.description,
@@ -127,7 +127,6 @@ router.post('/update/:id', async (req,res) => {
             created: old.created,
             oldID: old._id
         });
-        console.log(bugToHistory);
         await bugToHistory.save();
     } catch(e) {
         console.log(e);
@@ -153,7 +152,10 @@ router.post('/update/:id', async (req,res) => {
     try {
         
         await Bug.findByIdAndUpdate(req.params.id, updatedParams);
-        const getUpdated = await Bug.findById(req.params.id);
+        const getUpdated = await Bug.findById(req.params.id)
+        .populate('user', {username : 1})
+        .populate('project', {title : 1})
+        .populate('assignedTo', {username : 1});
         res.json(getUpdated);
     } catch(e) {
         console.log(e);
