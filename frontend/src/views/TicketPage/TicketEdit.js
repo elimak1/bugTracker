@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector, useDispatch} from 'react-redux';
 
 import {editTicket} from '../../reducers/ticketReducer';
+import {validateDescription, validateTitle, validateUser} from '../../utility/validate'
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // core components
@@ -160,6 +161,7 @@ export default function TicketEdit({ticket, close}) {
                   <CustomInput
                     labelText="Title"
                     id="title"
+                    error={!validateTitle(title)}
                     formControlProps={{
                       fullWidth: true,
                       onChange: (event) => setTitle(event.target.value),
@@ -173,6 +175,7 @@ export default function TicketEdit({ticket, close}) {
                   <CustomInput
                     labelText="Description"
                     id="description"
+                    error={!validateDescription(description)}
                     formControlProps={{
                       fullWidth: true,
                       onChange: (event) => setDescription(event.target.value),
@@ -193,6 +196,7 @@ export default function TicketEdit({ticket, close}) {
                   <CustomInput
                     labelText="Assign ticket to"
                     id="assignedTo"
+                    error={!validateUser(users, assignedTo)}
                     formControlProps={{
                       fullWidth: true,
                       onChange: (event) => setAssignedTo(event.target.value),
@@ -217,7 +221,7 @@ export default function TicketEdit({ticket, close}) {
             </CardBody>
             <CardFooter>
               <Button color="primary" onClick={handleSubmit}
-              disabled={(title && description && assignedTo)? false:true}
+              disabled={(validateTitle(title) && validateDescription(description) && validateUser(users, assignedTo))? false:true}
               >Submit</Button>
               <Button color="warning" onClick={close}
               >Cancel</Button>

@@ -7,12 +7,14 @@ const bugSchema= new Schema({
         type: String,
         required: true,
         minlength: 4,
+        maxlength: 30,
         trim: true
     },
     description: {
         type: String,
         required: true,
         minlength: 10,
+        maxlength: 500,
         trim: true
     },
     user: {
