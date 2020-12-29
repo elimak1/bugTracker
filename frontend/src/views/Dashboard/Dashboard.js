@@ -37,12 +37,18 @@ import {
   completedTasksChart
 } from "variables/charts.js";
 
+import {getTicketTypeData, getTicketTypeOptions} from "variables/ticketCharts";
+
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles(styles);
 
 export default function Dashboard() {
   const classes = useStyles();
+  const tickets = useSelector(state => state.tickets);
+  
+
   return (
     <div>
       <GridContainer>
@@ -149,25 +155,25 @@ export default function Dashboard() {
             </CardFooter>
           </Card>
         </GridItem>
-        <GridItem xs={12} sm={12} md={4}>
+        <GridItem xs={12} sm={12} md={8}>
           <Card chart>
             <CardHeader color="warning">
               <ChartistGraph
                 className="ct-chart"
-                data={emailsSubscriptionChart.data}
+                data={getTicketTypeData(tickets)}
                 type="Bar"
-                options={emailsSubscriptionChart.options}
+                options={getTicketTypeOptions(tickets)}
                 responsiveOptions={emailsSubscriptionChart.responsiveOptions}
                 listener={emailsSubscriptionChart.animation}
               />
             </CardHeader>
             <CardBody>
-              <h4 className={classes.cardTitle}>Email Subscriptions</h4>
-              <p className={classes.cardCategory}>Last Campaign Performance</p>
+              <h4 className={classes.cardTitle}>Ticket types</h4>
+              <p className={classes.cardCategory}>All tickets in system</p>
             </CardBody>
             <CardFooter chart>
               <div className={classes.stats}>
-                <AccessTime /> campaign sent 2 days ago
+                <AccessTime />
               </div>
             </CardFooter>
           </Card>

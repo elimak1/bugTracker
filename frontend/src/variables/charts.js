@@ -92,7 +92,7 @@ const emailsSubscriptionChart = {
       showGrid: false
     },
     low: 0,
-    high: 1000,
+    high: 50,
     chartPadding: {
       top: 0,
       right: 5,
@@ -104,7 +104,7 @@ const emailsSubscriptionChart = {
     [
       "screen and (max-width: 640px)",
       {
-        seriesBarDistance: 5,
+        seriesBarDistance: 20,
         axisX: {
           labelInterpolationFnc: function(value) {
             return value[0];
@@ -124,6 +124,9 @@ const emailsSubscriptionChart = {
             to: 1,
             easing: "ease"
           }
+        });
+        data.element.attr({
+          style: 'stroke-width: 50px'
         });
       }
     }
