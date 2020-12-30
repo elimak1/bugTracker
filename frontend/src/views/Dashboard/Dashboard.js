@@ -4,11 +4,11 @@ import ChartistGraph from "react-chartist";
 // @material-ui/core
 import { makeStyles } from "@material-ui/core/styles";
 import Icon from "@material-ui/core/Icon";
+import Button from "@material-ui/core/Button";
 // @material-ui/icons
 import Store from "@material-ui/icons/Store";
 import DateRange from "@material-ui/icons/DateRange";
 import Update from "@material-ui/icons/Update";
-import ArrowUpward from "@material-ui/icons/ArrowUpward";
 import AccessTime from "@material-ui/icons/AccessTime";
 import Accessibility from "@material-ui/icons/Accessibility";
 // core components
@@ -69,11 +69,13 @@ export default function Dashboard() {
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
-                <a onClick={e => {
+                <Button onClick={e => {
                   e.preventDefault()
-                  history.push("/admin/projects/create")}}>
+                  history.push("/admin/projects/create")}}
+                  color="default"
+                  size="small">
                   Create a new
-                </a>
+                </Button>
               </div>
             </CardFooter>
           </Card>
@@ -146,12 +148,6 @@ export default function Dashboard() {
             </CardHeader>
             <CardBody>
               <h4 className={classes.cardTitle}>Daily new tickets</h4>
-              <p className={classes.cardCategory}>
-                <span className={classes.successText}>
-                  <ArrowUpward className={classes.upArrowCardCategory} /> 55%
-                </span>{" "}
-                increase in today sales.
-              </p>
             </CardBody>
             <CardFooter chart>
               <div className={classes.stats}>

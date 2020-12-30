@@ -20,15 +20,12 @@ import Dashboard from "@material-ui/icons/Dashboard";
 import Person from "@material-ui/icons/Person";
 import LibraryBooks from "@material-ui/icons/LibraryBooks";
 import BubbleChart from "@material-ui/icons/BubbleChart";
-import Notifications from "@material-ui/icons/Notifications";
 // core components/views for Admin layout
 import DashboardPage from "views/Dashboard/Dashboard.js";
 import UserProfile from "views/UserProfile/UserProfile.js";
 import Users from "views/UserPage/Users";
 import Projects from "views/ProjectPage/Projects";
 import Tickets from "views/TicketPage/Tickets";
-import Icons from "views/Icons/Icons.js";
-import NotificationsPage from "views/Notifications/Notifications.js";
 
 const dashboardRoutes = [
   {
@@ -69,14 +66,6 @@ const dashboardRoutes = [
     rtlName: "الرموز",
     icon: BubbleChart,
     component: Tickets,
-    layout: "/admin"
-  },
-  {
-    path: "/notifications",
-    name: "Notifications",
-    rtlName: "إخطارات",
-    icon: Notifications,
-    component: NotificationsPage,
     layout: "/admin"
   },
 ];

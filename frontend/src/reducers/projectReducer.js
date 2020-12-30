@@ -15,7 +15,7 @@ const projectReducer = (state = null, action) => {
             return state.map(pr => pr.id === action.data.id? project: pr);
         case 'EDITPROJECTTICKET':
             let thisProject = state.find(p => p.id === action.data.projectId);
-            thisProject.tickets = thisProject.tickets.map(tic => tic.id == action.data.id? action.data.ticket: tic);
+            thisProject.tickets = thisProject.tickets.map(tic => tic.id === action.data.id? action.data.ticket: tic);
             return state.map(pr => pr.id === action.data.projectId? thisProject: pr);
         default:
             return state;

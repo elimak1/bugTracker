@@ -46,6 +46,7 @@ const useStyles = makeStyles(styles);
 
 export default function TicketTable(props) {
   let tickets = props.tickets;
+  let header = props.header;
   const classes = useStyles();
 
   const [entAmount, setEntAmout] = React.useState(10);
@@ -225,7 +226,7 @@ export default function TicketTable(props) {
       <GridItem xs={12} sm={12} md={12}>
         <Card>
           <CardHeader color="primary">
-            <h4 className={classes.cardTitleWhite}>List of tickets</h4>
+            <h4 className={classes.cardTitleWhite}>{header? header:"List of tickets"}</h4>
           </CardHeader>
           <CardBody>
           <Grid container direction="row" item xs={12} justify="space-between" alignItems="center">
@@ -233,7 +234,7 @@ export default function TicketTable(props) {
              <Button onClick={changeEnt25}>25</Button></span>
               
             
-              <TextField id="standard-basic2" label="Search" onChange={(e) => setFilter(e.target.value)} />
+              <TextField label="Search" onChange={(e) => setFilter(e.target.value)} />
           </Grid>                                                
             <Table
               tableHeaderColor="primary"
