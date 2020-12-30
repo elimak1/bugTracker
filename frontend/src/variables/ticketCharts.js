@@ -64,3 +64,14 @@ export const getTicketTypeOptions = (tickets) => {
           }
     )
 }
+
+export const getOpenTicketCount = (tickets) => {
+    let count = 0;
+    const addOpen = (t) => {
+        if(t.open) count++;
+    }
+    if (tickets) {
+        tickets.forEach(addOpen);
+    }
+    return count;
+}
