@@ -22,7 +22,7 @@ import LibraryBooks from "@material-ui/icons/LibraryBooks";
 import BubbleChart from "@material-ui/icons/BubbleChart";
 // core components/views for Admin layout
 import DashboardPage from "views/Dashboard/Dashboard.js";
-import UserProfile from "views/UserProfile/UserProfile.js";
+import UserPage from "views/UserProfile/UserPage.js";
 import Users from "views/UserPage/Users";
 import Projects from "views/ProjectPage/Projects";
 import Tickets from "views/TicketPage/Tickets";
@@ -41,7 +41,7 @@ const dashboardRoutes = [
     name: "User Profile",
     rtlName: "ملف تعريفي للمستخدم",
     icon: Person,
-    component: UserProfile,
+    component: UserPage,
     layout: "/admin"
   },
   {

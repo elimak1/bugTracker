@@ -55,6 +55,8 @@ router.post('/', async (req,res) => {
     
     try {
         let saved = await newProject.save();
+        user.bugs = user.bugs.concat(saved._id);
+        await user.save();
         await saved.populate('personnel', {username: 1, email: 1, role: 1}).execPopulate();
         console.log(saved);
         res.json(saved);

@@ -18,7 +18,7 @@ const userSchema = new Schema({
         minlength: 5,
         trim: true,
         unique: true,
-        maxlength: 30
+        maxlength: 40
         
         
     },
@@ -28,6 +28,26 @@ const userSchema = new Schema({
         minlength: 6,
         trim: true,
         maxlength: 100
+    },
+    firstName: {
+        type: String,
+        trim: true,
+        maxlength: 20
+    },
+    lastName: {
+        type: String,
+        trim: true,
+        maxlength: 20
+    },
+    company: {
+        type: String,
+        trim: true,
+        maxlength: 20
+    },
+    about: {
+        type: String,
+        trim: true,
+        maxlength: 500
     },
     bugs: [{
         type: mongoose.Schema.Types.ObjectId,
@@ -41,7 +61,11 @@ const userSchema = new Schema({
     projects: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Project',
-      }]
+      }],
+    confirmed: {
+        type: Boolean,
+        default: false
+    }
     
 })
 userSchema.set('toJSON', {

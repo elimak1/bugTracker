@@ -4,6 +4,9 @@ let User = require('../models/user');
 const router = express.Router();
 
 const jwt = require('jsonwebtoken')
+const CLIENT_ORIGIN = "http://localhost:3000/"
+
+import {emailSender} from '../utility/emailSender';
 
 const getTokenFrom = req => {
     const authorization = req.get('Authorization');
@@ -35,20 +38,48 @@ router.post('/', async (req,res) => {
     const passwordHash = await bcrypt.hash(req.body.password, saltRounds)
     const name: string = req.body.name;
     const email: string = req.body.email;
+    const firstName: string = req.body.firstName;
+    const lastName: string = req.body.lastName;
+    const company: string = req.body.firstName;
+    const about: string = req.body.about;
     let role: string= "N/A"
     if(req.body.role) {
         role = req.body.role;
     }
 
-    const newUser = new User({username: name, email,role, passwordHash, bugs: [], project: []});
+    const newUser = new User({username: name, email,role, passwordHash, bugs: [], project: [], firstName, lastName, company, about});
+
     
+    let addedUser;
     try{
-        const addedUser = await newUser.save();
-        res.json(addedUser);
+        addedUser = await newUser.save();
+        
     } catch(e) {
         console.log(e);
         res.status(400).json('Error: ' + e);
     }
+
+    // Send account confirmation email
+
+    // Make secret from id
+    const confirmationConten = {
+        id: addedUser.id
+      };
+    
+      const secret = jwt.sign(confirmationConten, process.env.SECRET)
+
+    const emailObject = {
+        subject: 'React Confirm Email',
+        html: `
+          <a href='${CLIENT_ORIGIN}/confirm/${secret}'>
+            click to confirm email
+          </a>
+        `,      
+        text: `Copy and paste this link: ${CLIENT_ORIGIN}/confirm/${secret}`
+      }
+    emailSender(email, emailObject);
+
+    res.json(addedUser);
     
         
     
@@ -98,6 +129,73 @@ router.post('/update/role/:id', async (req,res) => {
         console.log(e);
         res.status(400).json('Error: ' + e);
     }
+        
+});
+
+router.post('/update', async (req,res) => {
+
+    const token = getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET)
+    
+    // Users token needed 
+    if (!token || !decodedToken.id) {
+        return res.status(401).json({ error: 'token missing or invalid' })
+      }
+      let updateObject: any = {};
+      if(req.body.password) {
+        const saltRounds: number = 10;
+        const passwordHash = await bcrypt.hash(req.body.password, saltRounds);
+        updateObject.password = passwordHash;
+      }
+      if(req.body.username) {
+          updateObject.username = req.body.username;
+      }
+      if(req.body.email) {
+          updateObject.email = req.body.email;
+      }
+      if(req.body.firstName) {
+        updateObject.firstName = req.body.firstName;
+      }
+      if(req.body.lastName) {
+        updateObject.lastName = req.body.lastName;
+      }
+      if(req.body.company) {
+        updateObject.company= req.body.company;
+      }
+      if(req.body.about) {
+        updateObject.about = req.body.about;
+      }
+    try {
+        await User.findByIdAndUpdate(decodedToken.id, updateObject)
+        // response doesn't have updated role xd
+        let updated = await User.findById(decodedToken.id);
+        res.json(updated);
+    } catch(e) {
+        console.log(e);
+        res.status(400).json('Error: ' + e);
+    }
+        
+});
+
+router.post('/confirm/:id', async (req,res) => {
+    // real id is coded with jwt
+    const token = req.params.id;
+    const decodedToken = jwt.verify(token, process.env.SECRET)
+
+    const id = decodedToken.id;
+    try {
+        const user = await User.findById(id)
+
+        if (user && !user.confirmed) {
+            await User.findByIdAndUpdate(id, { confirmed: true })
+              res.json('Email confirmed');
+          } else {
+              res.json('Email already confirmed');
+          }
+    }catch(e) {
+        res.status(404).json('Please submit valid id');
+    }
+
         
 });
      

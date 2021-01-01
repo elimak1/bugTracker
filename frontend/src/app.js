@@ -5,6 +5,9 @@ import { createBrowserHistory } from "history";
 import Admin from "layouts/Admin.js";
 import RTL from "layouts/RTL.js";
 import Login from "components/Login/Login.js";
+import UserProfile from "views/UserProfile/UserProfile"
+import Confirmation from "views/Confirm";
+
 import "assets/css/material-dashboard-react.css?v=1.9.0";
 
 import { useDispatch, useSelector} from 'react-redux';
@@ -31,6 +34,12 @@ function App() {
 
     <Router history={hist}>
     <Switch>
+    <Route path="/confirmation/:id">
+            <Confirmation />
+    </Route>
+    <Route path="/login/signup">
+            {useSelector(state => state.login) ? <Redirect to="/" /> : <UserProfile editMode={false} />}
+    </Route>
     <Route path="/login">
             {useSelector(state => state.login) ? <Redirect to="/" /> : <Login />}
     </Route>
@@ -38,8 +47,7 @@ function App() {
       <Route path="/rtl" component={RTL} />
       <Redirect from="/" to="/admin/dashboard" />
     </Switch>
-  </Router>,
-  document.getElementById("root")
+  </Router>
     </div>
     
   );
