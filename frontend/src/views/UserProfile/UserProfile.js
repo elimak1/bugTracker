@@ -1,5 +1,6 @@
 import React from "react";
 import {useHistory} from "react-router-dom";
+import { useDispatch, useSelector} from 'react-redux';
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // core components
@@ -17,6 +18,8 @@ validateEmail,
 validatePassword,
 validateLongString,
 validateOther} from "../../utility/validate";
+
+import {updateUser, addUser} from "../../reducers/userReducer";
 
 const styles = {
   cardCategoryWhite: {
@@ -43,6 +46,8 @@ export default function UserProfile(props) {
   const editMode = props.editmode;
 
   let initValues = props.user;
+  const login = useSelector(state => state.login);
+  const dispatch = useDispatch();
 
   if(!initValues) {
     initValues = {
@@ -66,7 +71,7 @@ export default function UserProfile(props) {
   const [firstName, setfirstName] = React.useState(initValues.firstName? initValues.firstName : "");
   const [lastName, setLastName] = React.useState(initValues.lastName? initValues.lastName : "");
   const [company, setCompany] = React.useState(initValues.company? initValues.company : "");
-  const [about, setAbout] = React.useState(initValues.company? initValues.company : "");
+  const [about, setAbout] = React.useState(initValues.about? initValues.about : "");
   const [password, setPassword] = React.useState("");
   const [message, setMessage] = React.useState("");
 
@@ -75,9 +80,19 @@ export default function UserProfile(props) {
       setMessage("Fields missing or they don't meet requirements")
       return;
     }
+    if(login && editMode) {
+      dispatch(updateUser(
+        {username,email,firstName,lastName,company,about,password}, login.token
+      ))
+    } else {
+      dispatch(addUser(
+        {username,email,firstName,lastName,company,about,password}
+      ))
+      history.push("/login")
+
+    }
     setMessage("Submitted");
     editMode? console.log("Submitting changes") : console.log("Submtting new profile");
-    console.log(initValues);
   }
 
   const validate = () => {

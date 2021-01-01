@@ -9,6 +9,8 @@ const userReducer = (state = null, action) => {
             return action.data;
         case 'UPDATEUSER':
             return state.map(user => user.id===action.data.id? action.data: user);
+        case 'ADDUSER':
+            return state.concat(action.data);
         default:
             return state;
     }
@@ -38,6 +40,39 @@ export const updateRole = (id, role, token) => {
                 headers: {
                   'Authorization': `BEARER ${token}` 
                 }});
+            const user=res.data;
+            dispatch({
+                type: 'UPDATEUSER',
+                data: user,
+              })
+        } catch(e) {
+            console.log(e);
+        }     
+    }
+}
+
+export const updateUser = (fields, token) => {
+    return async dispatch => {
+        try {
+            const res = await axios.post(BASEURL + "update", fields, {
+                headers: {
+                  'Authorization': `BEARER ${token}` 
+                }});
+            const user=res.data;
+            dispatch({
+                type: 'UPDATEUSER',
+                data: user,
+              })
+        } catch(e) {
+            console.log(e);
+        }     
+    }
+}
+
+export const addUser = (fields) => {
+    return async dispatch => {
+        try {
+            const res = await axios.post(BASEURL, fields);
             const user=res.data;
             dispatch({
                 type: 'UPDATEUSER',

@@ -36,7 +36,7 @@ router.post('/', async (req,res) => {
     }
     const saltRounds: number = 10
     const passwordHash = await bcrypt.hash(req.body.password, saltRounds)
-    const name: string = req.body.name;
+    const username: string = req.body.username;
     const email: string = req.body.email;
     const firstName: string = req.body.firstName;
     const lastName: string = req.body.lastName;
@@ -47,9 +47,8 @@ router.post('/', async (req,res) => {
         role = req.body.role;
     }
 
-    const newUser = new User({username: name, email,role, passwordHash, bugs: [], project: [], firstName, lastName, company, about});
+    const newUser = new User({username, email,role, passwordHash, bugs: [], project: [], firstName, lastName, company, about});
 
-    
     let addedUser;
     try{
         addedUser = await newUser.save();
@@ -63,19 +62,19 @@ router.post('/', async (req,res) => {
 
     // Make secret from id
     const confirmationConten = {
-        id: addedUser.id
+        id: addedUser.id,
       };
-    
-      const secret = jwt.sign(confirmationConten, process.env.SECRET)
+    console.log(confirmationConten);
+    const secret = jwt.sign(confirmationConten, process.env.SECRET)
 
     const emailObject = {
-        subject: 'React Confirm Email',
+        subject: 'BugTracker Confirm Email',
         html: `
-          <a href='${CLIENT_ORIGIN}/confirm/${secret}'>
+          <a href='${CLIENT_ORIGIN}confirmation/${secret}'>
             click to confirm email
           </a>
         `,      
-        text: `Copy and paste this link: ${CLIENT_ORIGIN}/confirm/${secret}`
+        text: `Copy and paste this link: ${CLIENT_ORIGIN}confirmation/${secret}`
       }
     emailSender(email, emailObject);
 
@@ -142,7 +141,7 @@ router.post('/update', async (req,res) => {
         return res.status(401).json({ error: 'token missing or invalid' })
       }
       let updateObject: any = {};
-      if(req.body.password) {
+      if(req.body.passwordHash) {
         const saltRounds: number = 10;
         const passwordHash = await bcrypt.hash(req.body.password, saltRounds);
         updateObject.password = passwordHash;
@@ -180,8 +179,10 @@ router.post('/update', async (req,res) => {
 router.post('/confirm/:id', async (req,res) => {
     // real id is coded with jwt
     const token = req.params.id;
+    console.log(token);
     const decodedToken = jwt.verify(token, process.env.SECRET)
 
+    console.log(decodedToken);
     const id = decodedToken.id;
     try {
         const user = await User.findById(id)
