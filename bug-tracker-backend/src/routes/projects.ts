@@ -75,23 +75,39 @@ router.post('/', async (req,res) => {
 // add user to project
 router.post('/:id', async (req,res) => {
     const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET)
+    const decodedToken = jwt.verify(token, process.env.SECRET);
     
     // Users token needed 
     if (!token || !decodedToken.id) {
         return res.status(401).json({ error: 'token missing or invalid' })
       }
 
+    let user;
+    try {
+        user = await User.findById(decodedToken.id);
+    } catch(e) {
+        return res.status(401).json({ error: 'user not found' })
+    }
+    // User need to be confirmed 
+    if(!user.confirmed) {
+        return res.status(401).json({error: 'Account needs to be confirmed to assign users'})
+    }
+
     try {
         const project = await Project.findById(req.params.id);
-        const user = await User.findById(req.body.id);
-        if(!user.confirmed) {
-            return res.status(401).json({error: 'Account needs to be confirmed to add users to project'})
+        const addedUser = await User.findById(req.body.id);
+
+        if(project.personnel.includes(addedUser._id)) {
+            return res.status(400).json('Error: ' + "User already assigned to this project");
         }
-        user.projects = user.projects.concat(project._id);
-        await user.save();
-        project.personnel = project.personnel.concat(user._id);
-        const saved = project.save();
+        addedUser.projects = addedUser.projects.concat(project._id);
+        await addedUser.save();
+        project.personnel = project.personnel.concat(addedUser._id);
+        const saved = await project.save();
+        await saved.populate('personnel', {username: 1, email: 1, role: 1}).execPopulate();
+        await saved.populate({path: 'tickets', populate: {path:'assignedTo'}}).execPopulate();
+        await saved.populate({path: 'tickets', populate: {path:'user'}}).execPopulate();
+
         res.json(saved);
     } catch (e) {
         res.status(400).json('Error: ' + e);

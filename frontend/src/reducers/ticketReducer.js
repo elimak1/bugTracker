@@ -73,7 +73,7 @@ export const editTicket = (title, description, type, priority, open, assignedToI
                 data: {id: id, ticket: ticket},
               }); 
             dispatch({
-                type: 'EDITROJECTTICKET',
+                type: 'EDITPROJECTTICKET',
                 data: {projectId: projectId,id: id, ticket: ticket},
               });
         } catch(e) {
