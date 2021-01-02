@@ -1,4 +1,5 @@
 import axios from "axios";
+import { customNotification } from "./notificationReducer";
 
 const BASEURL = 'http://localhost:3001/projects/';
 
@@ -36,6 +37,7 @@ export const initProjects = () => {
               })
         } catch(e) {
             console.log(e);
+            dispatch(customNotification("Error when getting projects from the server","danger"));
         }
         
         
@@ -57,8 +59,10 @@ export const newProject = (title, description, token) => {
                 type: 'ADDPROJECT',
                 data: project,
               })
+              dispatch(customNotification("Project: " + title+ " submitted","success"));
         } catch(e) {
             console.log(e);
+            dispatch(customNotification("You don't have access to submit projects","warning"));
         }   
     }
 }
@@ -76,8 +80,11 @@ export const addUserToProject = (projectId, userId, token) => {
                 type: 'UPDATEPROJECT',
                 data: project,
               })
+              dispatch(customNotification("User added!","success"));
         } catch(e) {
             console.log(e);
+            dispatch(customNotification("You don't have permission to add users to a project","warning"));
+            
         }   
     }
 }

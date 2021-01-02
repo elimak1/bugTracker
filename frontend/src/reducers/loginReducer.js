@@ -1,4 +1,5 @@
 import axios from "axios";
+import { customNotification } from "./notificationReducer";
 
 const BASEURL = 'http://localhost:3001/login/';
 
@@ -42,7 +43,7 @@ export const logIn = (creds) => {
         user=res.data;
         
     } catch(e) {
-        console.log(e);
+        dispatch(customNotification("Wrong username or password","danger"))
     }
     window.localStorage.setItem('loggedUser', JSON.stringify(user));
     

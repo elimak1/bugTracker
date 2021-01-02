@@ -9,12 +9,15 @@ import UserProfile from "views/UserProfile/UserProfile"
 import Confirmation from "views/Confirm";
 
 import "assets/css/material-dashboard-react.css?v=1.9.0";
+import AddAlert from "@material-ui/icons/AddAlert";
+import Snackbar from "components/Snackbar/Snackbar.js";
 
 import { useDispatch, useSelector} from 'react-redux';
 import { initLogin} from 'reducers/loginReducer.js';
 import { initUsers} from 'reducers/userReducer';
 import {initProjects} from 'reducers/projectReducer';
 import {initTickets} from 'reducers/ticketReducer';
+import {customNotification, closeNotification} from 'reducers/notificationReducer';
 
 function App() {
 
@@ -29,8 +32,20 @@ function App() {
     dispatch(initTickets());
   }, []);
 
+  const notification = useSelector(state => state.notification);
+
   return (
     <div>
+      {notification? <Snackbar
+                  place="br"
+                  color={notification.color}
+                  icon={AddAlert}
+                  message={notification.message}
+                  open={true}
+                  closeNotification={() => dispatch(closeNotification())}
+                  close
+                />: ""}
+      
 
     <Router history={hist}>
     <Switch>

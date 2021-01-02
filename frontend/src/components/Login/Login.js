@@ -32,7 +32,6 @@ const LoginPage=  () => {
 
     const [username, setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
-    const [message, setMessage] = React.useState('');
 
     const dispatch = useDispatch();
     
@@ -40,8 +39,6 @@ const LoginPage=  () => {
     const handleLogin = (event) => {
         event.preventDefault();
         dispatch(logIn({username, password}));
-        // User is redirected from page if login completes
-        setMessage('Wrong username or password');
       }
 
     const classes = useStyles();
@@ -101,7 +98,6 @@ const LoginPage=  () => {
                         <Button variant="contained" color="primary" fullWidth type="submit" className={classes.submit}>
                             LOGIN
                         </Button>
-                        <p>{message}</p> 
                         <div>
                             <p>forgot <Link to="/">password</Link></p>
                             <p><Link to="/login/signup">create account</Link></p>

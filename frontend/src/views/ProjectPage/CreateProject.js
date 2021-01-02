@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch} from 'react-redux';
+import {useHistory} from "react-router-dom";
 import {newProject} from '../../reducers/projectReducer';
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -12,6 +13,8 @@ import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
+
+import {validateTitle, validateDescription} from "../../utility/validate";
 
 
 const styles = {
@@ -38,6 +41,7 @@ const useStyles = makeStyles(styles);
 
 
 export default function CreateProject() {
+  const history = useHistory();
   const classes = useStyles();
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
@@ -51,6 +55,8 @@ export default function CreateProject() {
     setTitle("");
     setDescription("");
     setMessage("submitted");
+    history.push("/admin/projects")
+
 }
 
   return (
@@ -95,7 +101,7 @@ export default function CreateProject() {
             </CardBody>
             <CardFooter>
               <Button color="primary" onClick={handleSubmit}
-              disabled={(title && description)? false:true}
+              disabled={(validateTitle(title) && validateDescription(description) )? false:true}
               >Submit</Button>
               <span>{message}</span>
             </CardFooter>

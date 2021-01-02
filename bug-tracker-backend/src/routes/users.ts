@@ -120,6 +120,8 @@ router.delete('/:id', async (req,res) => {
     }      
 });
 
+
+// Updates users role
 router.post('/update/role/:id', async (req,res) => {
 
     const token = getTokenFrom(req);
@@ -137,8 +139,8 @@ router.post('/update/role/:id', async (req,res) => {
           return res.status(401).json({ error: 'user not found' })
       }
       console.log(user);
-    // User need to be confirmed to create a project
-    if(!user.confirmed && !(user.role === "Admin" || user.role === "Project Manager")) {
+    // User need to be admin
+    if(!user.confirmed && !(user.role === "Admin")) {
         return res.status(401).json({error: 'Account doesnt have rights to perform this operation'})
     }
 

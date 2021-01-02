@@ -1,4 +1,5 @@
 import axios from "axios";
+import { customNotification } from "./notificationReducer";
 
 const BASEURL = 'http://localhost:3001/bugs/';
 
@@ -28,6 +29,7 @@ export const initTickets = () => {
               })
         } catch(e) {
             console.log(e);
+            dispatch(customNotification("Error when getting tickets from the server","danger"));
         }
         
         
@@ -51,8 +53,10 @@ export const newTicket = (title, description, type, projectId, assignedToId, tok
                 type: 'ADDPROJECTTICKET',
                 data: {id: projectId, ticket: ticket},
               });
+              dispatch(customNotification("Ticket: " + title+ " submitted","success"));
         } catch(e) {
             console.log(e);
+            dispatch(customNotification("You don't have permssion submit tickets","warning"));
         }
     }
 }
@@ -76,8 +80,10 @@ export const editTicket = (title, description, type, priority, open, assignedToI
                 type: 'EDITPROJECTTICKET',
                 data: {projectId: projectId,id: id, ticket: ticket},
               });
+              dispatch(customNotification("Edit for ticket" + title+ " submitted","success"));
         } catch(e) {
             console.log(e);
+            dispatch(customNotification("You don't have permssion to edit tickets","warning"));
         }
     }
 }

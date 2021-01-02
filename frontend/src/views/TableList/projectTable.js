@@ -87,7 +87,7 @@ export default function ProjectTabale() {
 
   const previousHandler = (event) => {
     event.preventDefault();
-    if(projects && projects.length > entAmount&& projects.length< page*entAmount) {
+    if(projects && projects.length > entAmount&& projects.length<= page*entAmount) {
       setPage(page- 1);
     }
   }

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { customNotification } from "./notificationReducer";
 
 const BASEURL = 'http://localhost:3001/users/';
 
@@ -24,6 +25,7 @@ export const initUsers = () => {
             users=res.data;
         } catch(e) {
             console.log(e);
+            dispatch(customNotification("Error when getting users from the server","danger"));
         }
         
         dispatch({
@@ -45,8 +47,10 @@ export const updateRole = (id, role, token) => {
                 type: 'UPDATEUSER',
                 data: user,
               })
+              dispatch(customNotification("Role changed to " + role,"success"));
         } catch(e) {
             console.log(e);
+            dispatch(customNotification("Only an admin can change roles","warning"));
         }     
     }
 }
@@ -63,8 +67,10 @@ export const updateUser = (fields, token) => {
                 type: 'UPDATEUSER',
                 data: user,
               })
+              dispatch(customNotification("Changes saved!","success"));
         } catch(e) {
             console.log(e);
+            dispatch(customNotification(e.message,"danger"));
         }     
     }
 }
@@ -78,8 +84,10 @@ export const addUser = (fields) => {
                 type: 'UPDATEUSER',
                 data: user,
               })
+            dispatch(customNotification("Account verification link has been send to your email","info"));
         } catch(e) {
             console.log(e);
+            dispatch(customNotification(e.message,"danger"));
         }     
     }
 }
