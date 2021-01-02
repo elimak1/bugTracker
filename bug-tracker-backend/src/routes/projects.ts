@@ -46,8 +46,13 @@ router.post('/', async (req,res) => {
       try {
           user = await User.findById(decodedToken.id);
       } catch(e) {
-          res.status(401).json({ error: 'user not found' })
+          return res.status(401).json({ error: 'user not found' })
       }
+    // User need to be confirmed to create a project
+    if(!user.confirmed) {
+        return res.status(401).json({error: 'Account needs to be confirmed to create a project'})
+    }
+
     const title: string = req.body.title;
     const description: string = req.body.description;
 
@@ -80,6 +85,9 @@ router.post('/:id', async (req,res) => {
     try {
         const project = await Project.findById(req.params.id);
         const user = await User.findById(req.body.id);
+        if(!user.confirmed) {
+            return res.status(401).json({error: 'Account needs to be confirmed to add users to project'})
+        }
         user.projects = user.projects.concat(project._id);
         await user.save();
         project.personnel = project.personnel.concat(user._id);

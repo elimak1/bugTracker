@@ -149,6 +149,7 @@ export default function UserProfile(props) {
                         value: email
                       }}
                   />
+                  <span>{initValues.confirmed? "": "Please verify your email"}</span>
                 </GridItem>
                 
               </GridContainer>

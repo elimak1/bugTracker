@@ -50,6 +50,10 @@ router.post('/', async (req,res) => {
     } catch(e) {
         res.status(401).json({ error: 'user not found' });
     }
+    // User need to be confirmed to create a ticket
+    if(!user.confirmed) {
+        return res.status(401).json({error: 'Account needs to be confirmed to create a project'})
+    }
 
     let project;
     try {
@@ -105,7 +109,16 @@ router.post('/update/:id', async (req,res) => {
         return res.status(401).json({ error: 'token missing or invalid' })
       }
 
-    console.log("user verified");
+      let user;
+      try {
+          user = await User.findById(decodedToken.id);
+      } catch(e) {
+          return res.status(401).json({ error: 'user not found' })
+      }
+    // User need to be confirmed to edit a ticket
+    if(!user.confirmed && !(user.role === "Admin" || user.role === "Project Manager")) {
+        return res.status(401).json({error: 'You dont have permission to edit this ticket'})
+    }
     // Add current ticket to history
     let revision: Number;
     try {
@@ -132,8 +145,6 @@ router.post('/update/:id', async (req,res) => {
         console.log(e);
         return res.status(400).json('Error: ' + e);
     }
-
-
 
       const title: string = req.body.title;
       const description: string = req.body.description;

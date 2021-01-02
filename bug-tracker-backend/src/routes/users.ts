@@ -101,6 +101,17 @@ router.delete('/:id', async (req,res) => {
     if (!token || !decodedToken.id) {
         return res.status(401).json({ error: 'token missing or invalid' })
       }
+      let user;
+      try {
+          user = await User.findById(decodedToken.id);
+      } catch(e) {
+          return res.status(401).json({ error: 'user not found' })
+      }
+    // User need to be confirmed
+    if(!user.confirmed) {
+        return res.status(401).json({error: 'Account needs to be confirmed to delete user'})
+    }
+
     try{
         const deleted = await User.findByIdAndDelete(req.params.id);
         res.json(deleted);
@@ -118,6 +129,18 @@ router.post('/update/role/:id', async (req,res) => {
     if (!token || !decodedToken.id) {
         return res.status(401).json({ error: 'token missing or invalid' })
       }
+
+      let user;
+      try {
+          user = await User.findById(decodedToken.id);
+      } catch(e) {
+          return res.status(401).json({ error: 'user not found' })
+      }
+      console.log(user);
+    // User need to be confirmed to create a project
+    if(!user.confirmed && !(user.role === "Admin" || user.role === "Project Manager")) {
+        return res.status(401).json({error: 'Account doesnt have rights to perform this operation'})
+    }
 
     try {
         let updated = await User.findByIdAndUpdate(req.params.id, {role: req.body.role})
