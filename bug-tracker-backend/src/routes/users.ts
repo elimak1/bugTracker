@@ -164,31 +164,43 @@ router.post('/update', async (req,res) => {
     // Users token needed 
     if (!token || !decodedToken.id) {
         return res.status(401).json({ error: 'token missing or invalid' })
-      }
-      let updateObject: any = {};
-      if(req.body.passwordHash) {
-        const saltRounds: number = 10;
-        const passwordHash = await bcrypt.hash(req.body.password, saltRounds);
-        updateObject.password = passwordHash;
-      }
-      if(req.body.username) {
-          updateObject.username = req.body.username;
-      }
-      if(req.body.email) {
-          updateObject.email = req.body.email;
-      }
-      if(req.body.firstName) {
-        updateObject.firstName = req.body.firstName;
-      }
-      if(req.body.lastName) {
-        updateObject.lastName = req.body.lastName;
-      }
-      if(req.body.company) {
-        updateObject.company= req.body.company;
-      }
-      if(req.body.about) {
-        updateObject.about = req.body.about;
-      }
+    }
+
+    let user;
+    try {
+        user = await User.findById(decodedToken.id);
+    } catch(e) {
+        return res.status(401).json({ error: 'user not found' })
+    }
+    // Demouser cant be changed
+    if(user.role === "Demo") {
+        return res.status(401).json({error: 'Account doesnt have rights to perform this operation'})
+    }
+
+    let updateObject: any = {};
+    if(req.body.passwordHash) {
+    const saltRounds: number = 10;
+    const passwordHash = await bcrypt.hash(req.body.password, saltRounds);
+    updateObject.password = passwordHash;
+    }
+    if(req.body.username) {
+        updateObject.username = req.body.username;
+    }
+    if(req.body.email) {
+        updateObject.email = req.body.email;
+    }
+    if(req.body.firstName) {
+    updateObject.firstName = req.body.firstName;
+    }
+    if(req.body.lastName) {
+    updateObject.lastName = req.body.lastName;
+    }
+    if(req.body.company) {
+    updateObject.company= req.body.company;
+    }
+    if(req.body.about) {
+    updateObject.about = req.body.about;
+    }
     try {
         await User.findByIdAndUpdate(decodedToken.id, updateObject)
         // response doesn't have updated role xd

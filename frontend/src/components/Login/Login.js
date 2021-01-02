@@ -36,10 +36,13 @@ const LoginPage=  () => {
     const dispatch = useDispatch();
     
     
-    const handleLogin = (event) => {
-        event.preventDefault();
+    const handleLogin = () => {
         dispatch(logIn({username, password}));
       }
+
+    const handleDemouser = () => {
+      dispatch(logIn({username: "Demo User", password:"demouser"}));
+    }
 
     const classes = useStyles();
     return (
@@ -101,6 +104,7 @@ const LoginPage=  () => {
                         <div>
                             <p>forgot <Link to="/">password</Link></p>
                             <p><Link to="/login/signup">create account</Link></p>
+                            <p>Sign in as <Button onClick={handleDemouser}>Demouser</Button></p>
                         </div>
                     </form>
                 </CardContent>
