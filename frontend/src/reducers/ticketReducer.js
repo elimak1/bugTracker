@@ -1,7 +1,7 @@
 import axios from "axios";
 import { customNotification } from "./notificationReducer";
 
-const BASEURL = 'http://localhost:3001/bugs/';
+const BASEURL = 'https://elimaksbugtracker.herokuapp.com/api/bugs/';
 
 const ticketReducer = (state = null, action) => {
 

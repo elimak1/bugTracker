@@ -7,7 +7,10 @@
     "start": "tsc && node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon --config nodemon.json src/index.ts",
-    "dev:debug": "nodemon --config nodemon.json --inspect-brk src/index.ts"
+    "dev:debug": "nodemon --config nodemon.json --inspect-brk src/index.ts",
+    "build:frontend": "rm -rf build && cd ../frontend/ && npm run build --prod && cp -r build ../bug-tracker-backend/",
+    "deploy": "cd .. && git subtree push --prefix bug-tracker-backend heroku master",
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy"
   },
   "author": "Elias Mäkelä",
   "license": "ISC",

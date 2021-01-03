@@ -5,7 +5,7 @@ import axios from 'axios';
 import {customNotification} from '../reducers/notificationReducer';
 
 import {CircularProgress} from '@material-ui/core'
-const BASEURL = 'http://localhost:3001/users/';
+const BASEURL = 'https://elimaksbugtracker.herokuapp.com/api/users/';
 
 export default function Confirmation() {
     const dispatch = useDispatch();

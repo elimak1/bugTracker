@@ -8,6 +8,7 @@ const app = express();
 const port = process.env.PORT|| 3001;
 app.use(cors());
 app.use(express.json());
+app.use(express.static('build'))
 
 const URI = process.env.MONGO_URI
 mongoose.connect(URI, {useNewUrlParser: true, useCreateIndex: true,
@@ -21,10 +22,10 @@ const usersRouter = require('./routes/users');
 const bugsRouter = require('./routes/bugs');
 const loginRouter = require('./routes/login');
 const projectRouter = require('./routes/projects');
-app.use('/users', usersRouter);
-app.use('/bugs', bugsRouter);
-app.use('/login', loginRouter);
-app.use('/projects', projectRouter);
+app.use('/api/users', usersRouter);
+app.use('/api/bugs', bugsRouter);
+app.use('/api/login', loginRouter);
+app.use('/api/projects', projectRouter);
 
 
 app.get('/', (req, res) => {

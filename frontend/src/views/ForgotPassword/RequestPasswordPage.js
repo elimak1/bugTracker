@@ -17,7 +17,7 @@ import {validateEmail} from "../../utility/validate";
 import axios from "axios";
 import {customNotification} from "../../reducers/notificationReducer";
 
-const BASEURL = 'http://localhost:3001/login/';
+const BASEURL = 'https://elimaksbugtracker.herokuapp.com/api/login/';
 const styles = {
   cardCategoryWhite: {
     color: "rgba(255,255,255,.62)",
