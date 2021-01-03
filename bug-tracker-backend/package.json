@@ -11,6 +11,12 @@
   },
   "author": "Elias Mäkelä",
   "license": "ISC",
+
+  "engines": {
+    "node": "12.16",
+    "npm": "6.14.4"
+},
+
   "devDependencies": {
 
     "ts-node-dev": "^1.0.0",
@@ -32,3 +38,4 @@
     "typescript": "^4.1.2"
   }
 }
+
