@@ -71,7 +71,7 @@ export default function Dashboard() {
               <div className={classes.stats}>
                 <Button onClick={e => {
                   e.preventDefault()
-                  history.push("/admin/projects/create")}}
+                  history.push("/projects/create")}}
                   color="default"
                   size="small">
                   Create a new
@@ -81,7 +81,7 @@ export default function Dashboard() {
           </Card>
         </GridItem>
         <GridItem xs={12} sm={6} md={6}>
-          <Card onClick={() => recentProject? history.push("/admin/projects/"+recentProject.id): null}>
+          <Card onClick={() => recentProject? history.push("/projects/"+recentProject.id): null}>
             <CardHeader color="success" stats icon>
               <CardIcon color="success">
                 <Store />

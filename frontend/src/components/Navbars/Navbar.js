@@ -23,7 +23,7 @@ export default function Header(props) {
   function makeBrand() {
     var name;
     props.routes.map(prop => {
-      if (window.location.href.indexOf(prop.layout + prop.path) !== -1) {
+      if (window.location.href.indexOf(prop.path) !== -1) {
         name = props.rtlActive ? prop.rtlName : prop.name;
       }
       return null;
@@ -39,9 +39,7 @@ export default function Header(props) {
       <Toolbar className={classes.container}>
         <div className={classes.flex}>
           {/* Here we create navbar brand, based on route name */}
-          <Button color="transparent" href="#" className={classes.title}>
             {makeBrand()}
-          </Button>
         </div>
         <Hidden smDown implementation="css">
           {props.rtlActive ? <RTLNavbarLinks /> : <AdminNavbarLinks />}

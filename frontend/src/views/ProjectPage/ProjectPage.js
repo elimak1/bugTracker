@@ -29,10 +29,10 @@ export default function ProjectPage() {
   if(projects) {
     project = projects.find(proj => proj.id === id);
     if(!project) {
-      return(<Redirect to="/admin/projects"/>);
+      return(<Redirect to="/projects"/>);
     }
   } else{
-    return(<Redirect to="/admin/projects"/>)
+    return(<Redirect to="/projects"/>)
   }
 
   let filteredUsers;

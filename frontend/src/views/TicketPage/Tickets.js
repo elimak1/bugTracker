@@ -12,10 +12,10 @@ export default function Projects() {
       return(<div>
           
         <Switch>
-            <Route exact path="/admin/tickets">
+            <Route exact path="/tickets">
                 <p>error finding tickets for current user</p>
             </Route>
-            <Route path="/admin/tickets/:id">
+            <Route path="/tickets/:id">
                 <TicketPage/>
             </Route>
 
@@ -32,12 +32,12 @@ export default function Projects() {
       <div>
           
         <Switch>
-            <Route exact path="/admin/tickets">
+            <Route exact path="/tickets">
                 <TicketTable id="submittedTicketsTable" tickets={submitted} header="Submitted tickets"/>
                 <TicketTable id="assignedTicketsTable" tickets={assigned} header="Assigned tickets"/>
 
             </Route>
-            <Route path="/admin/tickets/:id">
+            <Route path="/tickets/:id">
                 <TicketPage/>
             </Route>
 

@@ -10,9 +10,9 @@ export default function Projects() {
       <div>
           
         <Switch>
-            <Route exact path="/admin/projects" component={ProjectTable} />
-            <Route path="/admin/projects/create" component={CreateProject}/>
-            <Route path="/admin/projects/:id" component={ProjectPage} />
+            <Route exact path="/projects" component={ProjectTable} />
+            <Route path="/projects/create" component={CreateProject}/>
+            <Route path="/projects/:id" component={ProjectPage} />
             
 
         </Switch>

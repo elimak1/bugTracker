@@ -72,7 +72,7 @@ export default function TicketTable(props) {
       ticket.created.includes(filter));
       const pageOfUsers= filtered.slice((page-1)*entAmount,page*entAmount);
       return pageOfUsers.map(ticket => 
-      [<Link to= {"/admin/tickets/" + ticket.id} >{ticket.title} </Link>, ticket.user.username, ticket.assignedTo.username, ticket.open? "Open": "Closed", ticket.created]);
+      [<Link to= {"/tickets/" + ticket.id} >{ticket.title} </Link>, ticket.user.username, ticket.assignedTo.username, ticket.open? "Open": "Closed", ticket.created]);
     }
     else {
       return [["Ticket list could not be fetched"]];

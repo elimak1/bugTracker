@@ -78,7 +78,7 @@ export default function TicketPage() {
       <CardHeader color="primary">
         <h4 className={classes.cardTitleWhite}>Details for ticket: {id}</h4>
         <p className={classes.cardCategoryWhite}>
-          <Button onClick={() => history.push("/admin/projects/" + ticket.project.id)}>Back</Button> | <Button onClick={() => setEditMode(true)}>Edit</Button>
+          <Button onClick={() => history.push("/projects/" + ticket.project.id)}>Back</Button> | <Button onClick={() => setEditMode(true)}>Edit</Button>
         </p>
       </CardHeader>
       <CardBody>

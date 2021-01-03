@@ -55,7 +55,7 @@ export default function CreateProject() {
     setTitle("");
     setDescription("");
     setMessage("submitted");
-    history.push("/admin/projects")
+    history.push("/projects")
 
 }
 

@@ -71,7 +71,7 @@ export default function ProjectTabale() {
       const filtered = projects.filter(project => project.title.includes(filter) || project.description.includes(filter));
       const pageOfUsers= filtered.slice((page-1)*entAmount,page*entAmount);
       return pageOfUsers.map(project => 
-      [<Link to={"/admin/projects/"+ project.id}>{project.title}</Link>, project.description]);
+      [<Link to={"/projects/"+ project.id}>{project.title}</Link>, project.description]);
     }
     else {
       return [["Project list could not be fetched"]];
@@ -150,7 +150,7 @@ export default function ProjectTabale() {
   return (
     <div>
 
-      <Button color="primary" onClick={() =>history.push("/admin/projects/create")}>CREATE NEW PROJECT</Button>   
+      <Button color="primary" onClick={() =>history.push("/projects/create")}>CREATE NEW PROJECT</Button>   
     <GridContainer>
       
       <GridItem xs={12} sm={12} md={12}>

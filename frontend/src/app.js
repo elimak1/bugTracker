@@ -59,14 +59,13 @@ function App() {
     <Route path="/login/forgotPassword">
             {useSelector(state => state.login) ? <Redirect to="/" /> : <RequestPasswordPage />}
     </Route>
-    <Route path="/password/:id">
+    <Route path="/login/password/:id">
             {useSelector(state => state.login) ? <Redirect to="/" /> : <SetPasswordPage/>}
     </Route>
     <Route path="/login">
             {useSelector(state => state.login) ? <Redirect to="/" /> : <Login />}
     </Route>
-      <Route path="/admin" component={Admin} />
-      <Redirect from="/" to="/admin/dashboard" />
+      <Route path="/" component={Admin} />
     </Switch>
   </Router>
     </div>
