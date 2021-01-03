@@ -10,14 +10,12 @@ const bugSchema = new Schema({
         type: String,
         required: true,
         minlength: 4,
-        maxlength: 30,
         trim: true
     },
     description: {
         type: String,
         required: true,
         minlength: 10,
-        maxlength: 500,
         trim: true
     },
     user: {
@@ -53,6 +51,9 @@ const bugSchema = new Schema({
     },
     revision: {
         type: Number
+    },
+    oldID: {
+        type: String
     }
 });
 bugSchema.set('toJSON', {
@@ -62,6 +63,6 @@ bugSchema.set('toJSON', {
         delete returnedObject.__v;
     }
 });
-const Bug = mongoose_1.default.model('Bug', bugSchema);
-module.exports = Bug;
-//# sourceMappingURL=bug.js.map
+const BugHistory = mongoose_1.default.model('BugHistory', bugSchema);
+module.exports = BugHistory;
+//# sourceMappingURL=bugHistory.js.map

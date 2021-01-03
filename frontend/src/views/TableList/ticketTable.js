@@ -88,7 +88,7 @@ export default function TicketTable(props) {
 
   const previousHandler = (event) => {
     event.preventDefault();
-    if(tickets && tickets.length > entAmount&& tickets.length<= page*entAmount) {
+    if(tickets && page>1) {
       setPage(page- 1);
     }
   }

@@ -98,7 +98,7 @@ export default function TableList(props) {
 
   const previousHandler = (event) => {
     event.preventDefault();
-    if(users && users.length > entAmount&& users.length<= page*entAmount) {
+    if(users && page>1) {
       setPage(page- 1);
     }
   }

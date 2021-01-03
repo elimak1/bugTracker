@@ -12,20 +12,43 @@ const userSchema = new Schema({
         required: true,
         minlength: 4,
         trim: true,
-        unique: true
+        unique: true,
+        maxlength: 20
     },
     email: {
         type: String,
         required: true,
         minlength: 5,
         trim: true,
-        unique: true
+        unique: true,
+        maxlength: 40
     },
     passwordHash: {
         type: String,
         required: true,
         minlength: 6,
-        trim: true
+        trim: true,
+        maxlength: 100
+    },
+    firstName: {
+        type: String,
+        trim: true,
+        maxlength: 20
+    },
+    lastName: {
+        type: String,
+        trim: true,
+        maxlength: 20
+    },
+    company: {
+        type: String,
+        trim: true,
+        maxlength: 20
+    },
+    about: {
+        type: String,
+        trim: true,
+        maxlength: 500
     },
     bugs: [{
             type: mongoose_1.default.Schema.Types.ObjectId,
@@ -33,7 +56,16 @@ const userSchema = new Schema({
         }],
     role: {
         type: String,
-        trim: true
+        trim: true,
+        maxlength: 15
+    },
+    projects: [{
+            type: mongoose_1.default.Schema.Types.ObjectId,
+            ref: 'Project',
+        }],
+    confirmed: {
+        type: Boolean,
+        default: false
     }
 });
 userSchema.set('toJSON', {

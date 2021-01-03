@@ -13,7 +13,7 @@ app.use(cors_1.default());
 app.use(express_1.default.json());
 const URI = process.env.MONGO_URI;
 mongoose_1.default.connect(URI, { useNewUrlParser: true, useCreateIndex: true,
-    useUnifiedTopology: true });
+    useUnifiedTopology: true, useFindAndModify: false });
 const connection = mongoose_1.default.connection;
 connection.once('open', () => {
     console.log("Connected to MongoDB server");
@@ -21,9 +21,11 @@ connection.once('open', () => {
 const usersRouter = require('./routes/users');
 const bugsRouter = require('./routes/bugs');
 const loginRouter = require('./routes/login');
+const projectRouter = require('./routes/projects');
 app.use('/users', usersRouter);
 app.use('/bugs', bugsRouter);
 app.use('/login', loginRouter);
+app.use('/projects', projectRouter);
 app.get('/', (req, res) => {
     res.send('The sedulous hyena ate the antelope!');
 });

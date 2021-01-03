@@ -64,7 +64,7 @@ export default function ProjectTabale() {
       sortByTitle();
     }
     
-  }, []);
+  }, []); 
 
   const getUserList = () => {
     if(projects) {
@@ -87,7 +87,7 @@ export default function ProjectTabale() {
 
   const previousHandler = (event) => {
     event.preventDefault();
-    if(projects && projects.length > entAmount&& projects.length<= page*entAmount) {
+    if(projects && page>1) {
       setPage(page- 1);
     }
   }
