@@ -36,7 +36,8 @@ const LoginPage=  () => {
     const dispatch = useDispatch();
     
     
-    const handleLogin = () => {
+    const handleLogin = (e) => {
+        e.preventDefault();
         dispatch(logIn({username, password}));
       }
 
@@ -102,7 +103,7 @@ const LoginPage=  () => {
                             LOGIN
                         </Button>
                         <div>
-                            <p>forgot <Link to="/">password</Link></p>
+                            <p>forgot <Link to="/login/forgotPassword">password</Link></p>
                             <p><Link to="/login/signup">create account</Link></p>
                             <p>Sign in as <Button onClick={handleDemouser}>Demouser</Button></p>
                         </div>

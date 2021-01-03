@@ -77,12 +77,10 @@ router.post('/', async (req,res) => {
         text: `Copy and paste this link: ${CLIENT_ORIGIN}confirmation/${secret}`
       }
     emailSender(email, emailObject);
-
     res.json(addedUser);
-    
-        
-    
 });
+
+
 router.get('/:id', async (req,res) => {
     try{
         const user = await User.findById(req.params.id);

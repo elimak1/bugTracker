@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect} from "react-router-dom";
 // creates a beautiful scrollbar
 import PerfectScrollbar from "perfect-scrollbar";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
@@ -7,7 +7,6 @@ import "perfect-scrollbar/css/perfect-scrollbar.css";
 import { makeStyles } from "@material-ui/core/styles";
 // core components
 import Navbar from "components/Navbars/Navbar.js";
-import Footer from "components/Footer/Footer.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 
 import routes from "routes.js";
@@ -50,7 +49,7 @@ export default function Admin({ ...rest }) {
   // states and functions
   const image =bgImage;
   const color = "blue";
- 
+
   const [mobileOpen, setMobileOpen] = React.useState(false);
   
   const handleDrawerToggle = () => {
@@ -70,10 +69,7 @@ export default function Admin({ ...rest }) {
     let welcome = "";
     if(user) {
       welcome =  user.username;
-    } else {
-      welcome = "nvm please login";
-    }
-
+    } 
   
   // initialize and destroy the PerfectScrollbar plugin
   React.useEffect(() => {
@@ -95,6 +91,7 @@ export default function Admin({ ...rest }) {
   }, [mainPanel]);
   return (
     <div className={classes.wrapper}>
+      {user?  "" : <Redirect to="/login"/>}
       <Sidebar
         routes={routes}
         logoText={welcome}
